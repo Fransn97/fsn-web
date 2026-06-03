@@ -1,0 +1,48 @@
+backend:
+  name: github
+  repo: Fransn97/fsn-web
+  branch: main
+  base_url: https://fsn-web.vercel.app
+  auth_endpoint: /api/auth
+
+media_folder: public/assets/uploads
+public_folder: /assets/uploads
+
+locale: es
+
+collections:
+  - name: insights
+    label: Insights
+    label_singular: Insight
+    folder: src/content/insights
+    create: true
+    slug: "{{slug}}"
+    extension: md
+    fields:
+      - { label: Título, name: title, widget: string }
+      - { label: Extracto, name: excerpt, widget: text }
+      - { label: Categoría, name: category, widget: string }
+      - { label: Tiempo de lectura, name: readTime, widget: string, hint: "Ej: 8 min" }
+      - { label: Fecha de publicación, name: publishedAt, widget: date, format: YYYY-MM-DD }
+      - { label: Contenido, name: body, widget: markdown }
+
+  - name: cases
+    label: Case Studies
+    label_singular: Case Study
+    folder: src/content/cases
+    create: true
+    slug: "{{slug}}"
+    extension: md
+    fields:
+      - { label: Título, name: title, widget: string }
+      - { label: Categoría, name: category, widget: string, hint: "Ej: Applied AI · RAG" }
+      - { label: Contexto, name: context, widget: text }
+      - { label: Mi rol, name: role, widget: string }
+      - { label: Approach, name: approach, widget: text }
+      - { label: Resultado, name: result, widget: text }
+      - label: Stack
+        name: stack
+        widget: list
+        allow_add: true
+        field: { label: Tecnología, name: item, widget: string }
+      - { label: Contenido, name: body, widget: markdown }

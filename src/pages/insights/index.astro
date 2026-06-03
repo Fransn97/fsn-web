@@ -1,0 +1,75 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
+import { getCollection } from "astro:content";
+
+const insights = await getCollection("insights");
+const sorted = insights.sort(
+  (a, b) => new Date(b.data.publishedAt).getTime() - new Date(a.data.publishedAt).getTime()
+);
+---
+
+<BaseLayout
+  title="Insights · Field Notes · Francisco Sánchez Nieves"
+  description="Ideas sobre IA aplicada, arquitectura Salesforce y delivery en entornos enterprise."
+  canonical="https://franciscosancheznieves.com/insights"
+  ogTitle="Insights · Field Notes · Francisco Sánchez Nieves"
+  ogDescription="Ideas sobre IA aplicada, arquitectura Salesforce y delivery en entornos enterprise."
+>
+  <Header />
+
+  <main>
+    <section class="phero wrap" data-screen-label="Insights hero">
+      <nav class="crumbs" aria-label="Migas de pan">
+        <a href="/">Inicio</a><span class="sep" aria-hidden="true">/</span><span aria-current="page">Insights</span>
+      </nav>
+      <h1 class="phero__title reveal-up">Notes &amp; Insights</h1>
+      <p class="phero__lead reveal-up">
+        Ideas sobre IA aplicada, arquitectura Salesforce y delivery en entornos enterprise.
+        Concretas, sin ruido y pensadas para quien decide.
+      </p>
+    </section>
+
+    <section class="listing wrap" data-screen-label="Insights list">
+      <div class="insights-list">
+        {
+          sorted.map((post) => (
+            <article class="insight reveal-up">
+              <div class="insight__cat">
+                <span>{post.data.category}</span>
+              </div>
+              <div class="insight__main">
+                <h3 class="insight__title">{post.data.title}</h3>
+                <p class="insight__excerpt">{post.data.excerpt}</p>
+              </div>
+              <span class="insight__time">{post.data.readTime}</span>
+              <div class="insight__go">
+                <a class="tlink" href={`/insights/${post.slug}`} aria-label={`Leer — ${post.data.title}`}>
+                  Leer <span class="arrow" aria-hidden="true">→</span>
+                </a>
+              </div>
+            </article>
+          ))
+        }
+      </div>
+      <div class="sec-foot reveal-up">
+        <a class="tlink" href="/#newsletter">Suscríbete a Field Notes <span class="arrow" aria-hidden="true">→</span></a>
+      </div>
+    </section>
+
+    <section class="cta-band" data-screen-label="CTA">
+      <div class="wrap cta-band__grid">
+        <div>
+          <p class="label reveal-fade">Next step</p>
+          <h2 class="cta-band__title reveal-up">¿Tienes un reto que necesita estructura?</h2>
+        </div>
+        <a class="pill pill--solid reveal-up" href="/contact">
+          Cuéntame tu reto <span class="arrow" aria-hidden="true">→</span>
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</BaseLayout>

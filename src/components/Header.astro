@@ -1,0 +1,53 @@
+---
+interface Props {
+  activePage?: string;
+}
+const { activePage } = Astro.props;
+---
+
+<header class="header">
+  <div class="wrap header__row">
+    <a class="brand" href="/" aria-label="Francisco Sánchez Nieves — inicio">
+      <span class="brand__mark" aria-hidden="true"></span>
+      Francisco Sánchez Nieves
+    </a>
+    <nav class="nav" aria-label="Principal">
+      <a class="nav__link" href="/#expertise">Expertise</a>
+      <a class="nav__link" href="/cases">Case Studies</a>
+      <a class="nav__link" href="/insights">Insights</a>
+      <a class="nav__link" href="/about">About</a>
+      <a class="nav__link" href="/contact">Contact</a>
+    </nav>
+    <div class="header__right">
+      <a class="pill pill--solid pill--sm" href="/contact"
+        >Hablemos <span class="arrow" aria-hidden="true">→</span></a
+      >
+      <button
+        class="pill pill--sm nav-toggle"
+        id="nav-toggle"
+        aria-label="Abrir menú"
+        aria-controls="mobile-menu"
+        aria-expanded="false">Menú</button
+      >
+    </div>
+  </div>
+</header>
+
+<div class="mobile-menu" id="mobile-menu" aria-hidden="true">
+  <div class="mobile-menu__top">
+    <span class="brand"><span class="brand__mark" aria-hidden="true"></span> FSN</span>
+    <button class="pill pill--sm" id="menu-close" aria-label="Cerrar menú">Cerrar</button>
+  </div>
+  <nav aria-label="Móvil">
+    <a href="/#expertise">Expertise</a>
+    <a href="/cases">Case Studies</a>
+    <a href="/insights">Insights</a>
+    <a href="/about">About</a>
+    <a href="/contact">Contact</a>
+  </nav>
+  <div class="mobile-menu__foot">
+    <a class="pill pill--solid" href="/contact"
+      >Hablemos <span class="arrow" aria-hidden="true">→</span></a
+    >
+  </div>
+</div>

@@ -1,0 +1,435 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import { POSITIONING, PILLARS, CASES, INSIGHTS, CONTACT } from "../data/content";
+
+const pad = (n: number) => String(n).padStart(2, "0");
+---
+
+<BaseLayout
+  title="Francisco Sánchez Nieves · IA, Salesforce & Transformación Tecnológica"
+  description="Consultor de transformación tecnológica especializado en IA aplicada, Salesforce, arquitectura funcional y delivery en entornos enterprise."
+  canonical="https://franciscosancheznieves.com/"
+  ogTitle="Francisco Sánchez Nieves · AI, Salesforce & Technology Transformation"
+  ogDescription="Convierto problemas complejos en sistemas escalables, gobernables y medibles. IA aplicada · Salesforce · Delivery."
+>
+  <Fragment slot="head">
+    <script type="application/ld+json">
+      {JSON.stringify({
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "Person",
+            name: "Francisco Sánchez Nieves",
+            jobTitle: "Technology Transformation Consultant — AI & Salesforce",
+            url: "https://franciscosancheznieves.com/",
+            email: "hola@franciscosancheznieves.com",
+            sameAs: ["https://www.linkedin.com/in/francisco-sanchez-nieves"],
+            address: { "@type": "PostalAddress", addressLocality: "Madrid", addressCountry: "ES" },
+            knowsAbout: ["Applied AI", "Salesforce", "Agentforce", "Data Cloud", "Experience Cloud", "CRM Transformation", "M&A IT", "Technology Delivery"],
+          },
+          {
+            "@type": "WebSite",
+            name: "Francisco Sánchez Nieves",
+            url: "https://franciscosancheznieves.com/",
+            inLanguage: "es-ES",
+          },
+        ],
+      })}
+    </script>
+  </Fragment>
+
+  <Header />
+
+  <main id="top">
+    <!-- HERO -->
+    <section class="hero wrap" data-screen-label="Hero">
+      <canvas class="hero__bg" id="hero-bg" aria-hidden="true"></canvas>
+      <div class="hero__top">
+        <p class="hero__concept reveal-fade">AI · Salesforce · Technology Transformation</p>
+        <p class="hero__status reveal-fade">Madrid · Remote (EU) — Available for advisory</p>
+      </div>
+      <div class="hero__main">
+        <div class="hero__lead">
+          <h1 class="display hero__headline reveal">
+            <span class="ln"><span class="ln-inner">Francisco</span></span>
+            <span class="ln"><span class="ln-inner">Sánchez</span></span>
+            <span class="ln"><span class="ln-inner">Nieves</span></span>
+          </h1>
+          <p class="hero__role reveal-up">IA, Salesforce y transformación <em>en producción.</em></p>
+          <p class="hero__subtext reveal-up">
+            Combino visión de negocio, arquitectura funcional y delivery tecnológico para convertir
+            problemas complejos en sistemas escalables, gobernables y medibles.
+          </p>
+          <div class="hero__cta reveal-up">
+            <a class="pill pill--solid" href="#case-studies" data-cta="hero-primary"
+              >Ver casos de transformación <span class="arrow" aria-hidden="true">→</span></a
+            >
+            <a class="pill" href="#contact" data-cta="hero-secondary"
+              >Cuéntame tu reto <span class="arrow" aria-hidden="true">→</span></a
+            >
+          </div>
+        </div>
+        <figure class="hero__portrait reveal-up">
+          <span class="hero__portrait-tag">FSN</span>
+          <div class="hero__slot-wrap">
+            <image-slot
+              id="hero-portrait"
+              class="hero__slot"
+              shape="rect"
+              fit="cover"
+              placeholder="Arrastra tu retrato"
+            ></image-slot>
+          </div>
+          <figcaption class="hero__portrait-cap">
+            <span class="k">Consultor · IA &amp; Salesforce</span>
+            <span>Madrid / Remote (EU)</span>
+          </figcaption>
+        </figure>
+      </div>
+      <button class="hero__scroll" type="button" id="hero-scroll" aria-label="Desplázate a la siguiente sección">
+        <span class="hero__scroll-label">Scroll</span>
+        <span class="hero__scroll-track"><span class="hero__scroll-dot"></span></span>
+      </button>
+    </section>
+
+    <!-- IMAGE BAND -->
+    <section class="section--tight image-band wrap" data-screen-label="Transición">
+      <div class="image-band__grid">
+        <figure class="image-band__a reveal-up">
+          <div class="ph ph--duotone">
+            <div class="ph__label">[ Whiteboard / framing de la solución ]</div>
+          </div>
+          <figcaption><span>01 — Framing</span><span>Estrategia · Diseño funcional</span></figcaption>
+        </figure>
+        <figure class="image-band__b reveal-up">
+          <div class="ph ph--duotone"><div class="ph__label">[ Sistema en operación ]</div></div>
+          <figcaption><span>02 — Delivery</span><span>IA · Salesforce</span></figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- POSITIONING -->
+    <section class="section statement" data-screen-label="Posicionamiento">
+      <div class="wrap statement__grid">
+        <p class="label reveal-fade">Posicionamiento — 01</p>
+        <h2 class="statement__big reveal-up">
+          Trabajo en la intersección entre negocio, tecnología y <em>ejecución.</em>
+        </h2>
+        <div class="statement__cols">
+          <p class="reveal-up">
+            Mi trabajo se sitúa entre la estrategia, el diseño funcional y la ejecución tecnológica.
+            Traduzco necesidades complejas en modelos operativos, arquitecturas Salesforce y
+            soluciones de IA que funcionan en entornos reales.
+          </p>
+          <p class="k reveal-up">
+            Visión de negocio. Criterio tecnológico. Capacidad de estructurar procesos. Experiencia
+            en Salesforce. Foco en IA aplicada. Delivery real, de la idea a producción.
+          </p>
+        </div>
+        <div class="statement__blocks">
+          {
+            POSITIONING.map((b, i) => (
+              <div class="pos reveal-up">
+                <span class="pos__n">{pad(i + 1)}</span>
+                <h3 class="pos__k">{b.k}</h3>
+                <p class="pos__d">{b.d}</p>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- EXPERTISE -->
+    <section class="section" id="expertise" data-screen-label="Expertise">
+      <div class="wrap">
+        <div class="sec-head">
+          <div>
+            <p class="label reveal-fade">Expertise — 02</p>
+            <h2 class="sec-head__title reveal-up">Tres pilares,<br />una sola disciplina</h2>
+          </div>
+          <p class="sec-head__aside reveal-up">
+            Conecto negocio, tecnología y ejecución. No vendo herramientas: diseño cómo encajan en
+            un sistema que la organización puede operar.
+          </p>
+        </div>
+        <div class="pillars">
+          {
+            PILLARS.map((p, i) => (
+              <div class="pillar reveal-up" id={p.id}>
+                <div class="pillar__idx">{pad(i + 1)}</div>
+                <div class="pillar__body--name">
+                  <h3 class="pillar__name">{p.name}</h3>
+                </div>
+                <div class="pillar__detail">
+                  <p class="pillar__desc">{p.desc}</p>
+                  <div class="pillar__tags">
+                    {p.tags.map((t) => (
+                      <span class="tag">{t}</span>
+                    ))}
+                  </div>
+                </div>
+                <div class="pillar__go">
+                  <a class="tlink" href="#contact" aria-label={`Ver enfoque — ${p.name}`}>
+                    Ver enfoque <span class="arrow" aria-hidden="true">→</span>
+                  </a>
+                </div>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- CASE STUDIES -->
+    <section class="section" id="case-studies" data-screen-label="Case Studies">
+      <div class="wrap">
+        <div class="sec-head">
+          <div>
+            <p class="label reveal-fade">Case Studies — 03</p>
+            <h2 class="sec-head__title reveal-up">Selected<br />Work</h2>
+          </div>
+          <p class="sec-head__aside reveal-up">
+            Proyectos anonimizados de transformación, IA y Salesforce. Sin logos ni información
+            confidencial — solo el problema, el rol, el enfoque y el resultado.
+          </p>
+        </div>
+        <div class="cases">
+          {
+            CASES.map((c, i) => (
+              <article class="case reveal-up">
+                <div class="case__media">
+                  <div class="case__num">CS/{pad(i + 1)}</div>
+                  <div class="ph ph--duotone case__img">
+                    <div class="ph__label">[ {c.img} ]</div>
+                  </div>
+                  <div class="case__cat">
+                    <span class="tag">{c.cat}</span>
+                  </div>
+                </div>
+                <div class="case__head">
+                  <h3 class="case__title">{c.title}</h3>
+                </div>
+                <p class="case__summary">{c.context}</p>
+                <dl class="case__meta">
+                  <div>
+                    <dt>Mi rol</dt>
+                    <dd>{c.role}</dd>
+                  </div>
+                  <div>
+                    <dt>Approach</dt>
+                    <dd>{c.approach}</dd>
+                  </div>
+                  <div class="case__meta-wide">
+                    <dt>Resultado</dt>
+                    <dd>{c.result}</dd>
+                  </div>
+                </dl>
+                <div class="case__foot">
+                  <a class="tlink" href={`/cases/${c.slug}`}>
+                    Leer caso <span class="arrow" aria-hidden="true">→</span>
+                  </a>
+                </div>
+              </article>
+            ))
+          }
+        </div>
+        <div class="sec-foot reveal-up">
+          <a class="tlink" href="/cases">Ver todos los casos <span class="arrow" aria-hidden="true">→</span></a>
+        </div>
+      </div>
+    </section>
+
+    <!-- INSIGHTS -->
+    <section class="section ideas" id="insights" data-screen-label="Ideas">
+      <div class="wrap">
+        <div class="sec-head">
+          <div>
+            <p class="label reveal-fade">Ideas — 04</p>
+            <h2 class="sec-head__title reveal-up">Field<br />Notes</h2>
+          </div>
+          <p class="sec-head__aside reveal-up">
+            Comparto ideas sobre tecnología, transformación digital, Salesforce, IA aplicada,
+            arquitectura cloud y producto digital.
+          </p>
+        </div>
+        <div class="ideas__grid">
+          {
+            INSIGHTS.map((a, i) => (
+              <article class={`idea${i === 0 ? " idea--feat" : ""} reveal-up`}>
+                <div class="idea__media">
+                  <image-slot
+                    id={`idea-${i}`}
+                    class="idea__slot"
+                    shape="rect"
+                    fit="cover"
+                    placeholder={a.img}
+                  />
+                  <span class="idea__cat">{a.cat}</span>
+                </div>
+                <div class="idea__body">
+                  <h3 class="idea__title">
+                    <a href={`/insights/${a.slug}`}>{a.title}</a>
+                  </h3>
+                  <p class="idea__excerpt">{a.excerpt}</p>
+                  <div class="idea__foot">
+                    <a class="tlink" href={`/insights/${a.slug}`}>
+                      Leer <span class="arrow" aria-hidden="true">→</span>
+                    </a>
+                    <span class="idea__time">{a.time}</span>
+                  </div>
+                </div>
+              </article>
+            ))
+          }
+        </div>
+        <div class="ideas__sub reveal-up" id="newsletter">
+          <div class="ideas__sub-copy">
+            <p class="ideas__sub-kicker">La newsletter — Field Notes</p>
+            <p class="ideas__sub-pitch">
+              Recibe cada entrega en tu bandeja: ideas aplicables sobre IA, Salesforce, cloud y
+              transformación. Sin ruido, cancela cuando quieras.
+            </p>
+            <p class="ideas__sub-meta">
+              <span>Quincenal</span><span>·</span><span>5 min de lectura</span><span>·</span><span
+                >0 spam</span
+              >
+            </p>
+          </div>
+          <form class="news__form ideas__form" id="news-form" novalidate>
+            <label class="visually-hidden" for="news-email">Email</label>
+            <input
+              id="news-email"
+              name="email"
+              type="email"
+              placeholder="tu@email.com"
+              aria-label="Email"
+              required
+            />
+            <button type="submit" class="pill pill--accent">
+              Suscribirme <span class="arrow" aria-hidden="true">→</span>
+            </button>
+          </form>
+        </div>
+        <div class="sec-foot reveal-up">
+          <a class="tlink" href="/insights">Ver todos los insights <span class="arrow" aria-hidden="true">→</span></a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section class="section about about--home" id="about" data-screen-label="About">
+      <div class="wrap">
+        <p class="label reveal-fade" style="margin-bottom:clamp(36px,5vw,64px)">About — 05</p>
+        <div class="about__grid">
+          <div class="about__intro">
+            <h2 class="about__lead reveal-up">De Ávila a la transformación tecnológica.</h2>
+            <div class="about__text">
+              <p class="reveal-up">
+                Soy Francisco Sánchez Nieves. Conecto negocio, arquitectura y delivery para
+                convertir problemas complejos en soluciones digitales que llegan a producción — con
+                Salesforce, IA aplicada, cloud y criterio.
+              </p>
+              <p class="reveal-up">
+                Hoy lidero proyectos de transformación como Manager en consultoría tecnológica. Pero
+                el hilo viene de lejos.
+              </p>
+            </div>
+            <a class="pill pill--solid reveal-up about__more" href="/about"
+              >Conoce mi historia <span class="arrow" aria-hidden="true">→</span></a
+            >
+          </div>
+          <div class="about__portrait reveal-up">
+            <div class="hero__slot-wrap about__slot-wrap">
+              <span class="hero__portrait-tag">FSN</span>
+              <image-slot
+                id="about-home-portrait"
+                class="hero__slot"
+                shape="rect"
+                fit="cover"
+                placeholder="Arrastra tu retrato"
+              ></image-slot>
+            </div>
+            <div class="about__cap">
+              <span>Consultor · IA &amp; Salesforce</span><span>Madrid / Remote</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section class="section contact" id="contact" data-screen-label="Contact">
+      <div class="wrap contact__grid">
+        <div>
+          <p class="label reveal-fade">Contact — 06</p>
+          <h2 class="contact__title reveal-up" style="margin-top:22px">
+            ¿Un reto complejo que necesita estructura, tecnología y ejecución?
+          </h2>
+          <p class="contact__intro reveal-up">
+            Advisory, diseño de solución o gobierno de delivery. Cuéntame el problema y empezamos
+            por el framing.
+          </p>
+          <div class="contact__detail reveal-up">
+            <a
+              href={CONTACT.linkedin}
+              target="_blank"
+              rel="noopener noreferrer"
+              data-social="linkedin"
+            >
+              <span class="k">LinkedIn</span><span>/in/francisco-sanchez-nieves →</span>
+            </a>
+            <a href={`mailto:${CONTACT.email}`} data-social="email">
+              <span class="k">Email</span><span>{CONTACT.email} →</span>
+            </a>
+            <span><span class="k">Base</span><span>{CONTACT.base}</span></span>
+          </div>
+        </div>
+        <form class="form" id="contact-form" novalidate>
+          <div class="field--row">
+            <div class="field">
+              <label for="f-name">Nombre</label>
+              <input id="f-name" name="name" type="text" placeholder="Tu nombre" autocomplete="name" required />
+            </div>
+            <div class="field">
+              <label for="f-email">Email</label>
+              <input id="f-email" name="email" type="email" placeholder="tu@email.com" autocomplete="email" required />
+            </div>
+          </div>
+          <div class="field">
+            <label for="f-org">Organización</label>
+            <input id="f-org" name="organization" type="text" placeholder="Empresa u organización" autocomplete="organization" />
+          </div>
+          <div class="field">
+            <label for="f-topic">Tipo de reto</label>
+            <select id="f-topic" name="topic">
+              <option>IA aplicada</option>
+              <option>Salesforce</option>
+              <option>Portfolio / marca personal</option>
+              <option>Delivery tecnológico</option>
+              <option>Otro</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="f-msg">Mensaje</label>
+            <textarea id="f-msg" name="message" placeholder="¿Qué problema quieres resolver?" required></textarea>
+          </div>
+          <div class="form__submit">
+            <button type="submit" class="pill">
+              Enviar mensaje <span class="arrow" aria-hidden="true">→</span>
+            </button>
+            <span class="form__note">Respondo en 1–2 días laborables.</span>
+          </div>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+
+  <Fragment slot="scripts">
+    <script src="/assets/hero-bg.js" is:inline></script>
+  </Fragment>
+</BaseLayout>

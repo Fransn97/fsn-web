@@ -1,0 +1,139 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+
+const journey = [
+  { id: "ch-01", step: "01", label: "Origen", place: "Ávila, España · Origen", title: "Donde empieza todo", text: "Nací en Ávila. Murallas, piedra y horizonte: lo primero que aprendí fue a mirar las cosas con estructura y con perspectiva. Dos cosas que no he soltado desde entonces." },
+  { id: "ch-02", step: "02", label: "Formación", place: "Madrid · Formación", title: "El salto a Madrid", text: "Madrid fue el salto. La universidad, las primeras preguntas técnicas de verdad y la decisión de dedicarme a resolver problemas con tecnología." },
+  { id: "ch-03", step: "03", label: "Erasmus", place: "Hradec Králové, Chequia · Erasmus", title: "Salir de lo conocido", text: "Un Erasmus en Hradec Králové. Otro idioma, otra cultura, otra forma de trabajar. Aprendí a adaptarme y a entender que el contexto lo cambia todo." },
+  { id: "ch-04", step: "04", label: "Primeros pasos", place: "EY · Primeros pasos", title: "El rigor de empezar", text: "Arranqué mi carrera en EY, en auditoría tecnológica. Aprendí a leer sistemas, riesgos y controles — el rigor que sigo aplicando hoy a cada proyecto." },
+  { id: "ch-05", step: "05", label: "Consultoría", place: "Deloitte · Consultoría", title: "Consultoría de verdad", text: "Di el paso a la consultoría tecnológica en Deloitte. Proyectos reales, clientes enterprise y delivery de principio a fin, con todo lo que eso implica." },
+  { id: "ch-06", step: "06", label: "Hoy", place: "Manager · Hoy", title: "Liderar la transformación", text: "Hoy lidero como Manager: transformación digital, Salesforce, IA aplicada y arquitectura cloud, diseñando soluciones que escalan y llegan a producción." },
+  { id: "ch-07", step: "07", label: "Visión", place: "Lo que viene · Visión", title: "Construir lo siguiente", text: "Construir una marca personal sólida, compartir conocimiento y crear contenido y producto digital con impacto real. El mismo hilo, una capa más." },
+];
+---
+
+<BaseLayout
+  title="About · Francisco Sánchez Nieves"
+  description="De Ávila a la transformación tecnológica. La trayectoria de Francisco Sánchez Nieves: formación, consultoría, Salesforce, IA aplicada, cloud y producto digital."
+  canonical="https://franciscosancheznieves.com/about"
+  ogTitle="About · Francisco Sánchez Nieves"
+  ogDescription="Una trayectoria, un mismo hilo: convertir lo complejo en soluciones digitales que funcionan."
+>
+  <Fragment slot="head">
+    <link rel="stylesheet" href="/assets/certifications.css" />
+  </Fragment>
+
+  <Header />
+
+  <main>
+    <!-- ABOUT HERO -->
+    <section class="ahero wrap" data-screen-label="About hero">
+      <div class="ahero__lead-col">
+        <nav class="crumbs" aria-label="Migas de pan">
+          <a href="/">Inicio</a><span class="sep" aria-hidden="true">/</span><span aria-current="page">About</span>
+        </nav>
+        <p class="ahero__kicker reveal-fade">About — Francisco Sánchez Nieves</p>
+        <h1 class="ahero__title reveal-up">De Ávila a la <em>transformación</em> tecnológica.</h1>
+        <p class="ahero__lead reveal-up">
+          Una trayectoria con un mismo hilo: convertir lo complejo en soluciones digitales que
+          funcionan. Esta es la historia, etapa a etapa.
+        </p>
+      </div>
+      <figure class="ahero__portrait reveal-up">
+        <span class="ahero__tag">FSN</span>
+        <div class="ahero__slot-wrap">
+          <image-slot id="about-hero" class="ahero__slot" shape="rect" fit="cover" placeholder="Arrastra tu retrato"></image-slot>
+        </div>
+      </figure>
+    </section>
+
+    <!-- JOURNEY -->
+    <section class="journey" id="journey" data-screen-label="Journey">
+      <div class="wrap journey__inner">
+        <aside class="journey__rail" aria-hidden="true">
+          <div class="journey__track"><span class="journey__fill" id="journey-fill"></span></div>
+          <ol class="journey__steps" id="journey-steps">
+            {journey.map((ch, i) => (
+              <li class={`jstep${i === 0 ? " is-active" : ""}`} data-target={ch.id}>
+                <span class="jstep__n">{ch.step}</span>
+                <span class="jstep__l">{ch.label}</span>
+              </li>
+            ))}
+          </ol>
+        </aside>
+        <div class="journey__chapters">
+          {journey.map((ch) => (
+            <article class="chapter reveal-up" id={ch.id} data-step={ch.step}>
+              <div class="chapter__media">
+                <span class="chapter__no">{ch.step}</span>
+                <image-slot id={`jr-${ch.step}`} class="chapter__slot" shape="rect" fit="cover" placeholder={ch.place}></image-slot>
+              </div>
+              <div class="chapter__txt">
+                <p class="chapter__place">{ch.place}</p>
+                <h2 class="chapter__title">{ch.title}</h2>
+                <p class="chapter__lead">{ch.text}</p>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- CERTIFICATIONS -->
+    <section class="certs" id="certs" data-screen-label="Certificaciones">
+      <div class="wrap">
+        <div class="certs__head">
+          <div>
+            <p class="certs__eyebrow reveal-fade">Credentials</p>
+            <h2 class="certs__title reveal-up">Certificaciones profesionales</h2>
+          </div>
+          <p class="certs__intro reveal-up">
+            Credenciales obtenidas durante mi etapa en Deloitte. Validan mi experiencia en
+            Salesforce, arquitectura CRM, datos, IA aplicada, gestión de proyectos y metodologías
+            ágiles.
+          </p>
+        </div>
+        <div class="certs__metrics reveal-up" id="certs-metrics"></div>
+        <div class="certs__filters reveal-up" id="certs-filters" aria-label="Filtrar certificaciones por categoría"></div>
+        <div class="certs__grid" id="certs-grid"></div>
+      </div>
+    </section>
+
+    <!-- VISION -->
+    <section class="vision" data-screen-label="Visión">
+      <div class="wrap">
+        <p class="vision__kicker reveal-fade">Visión</p>
+        <h2 class="vision__big reveal-up">
+          Tecnología, producto digital e IA — para crear soluciones que escalan.
+        </h2>
+        <div class="vision__domains reveal-up">
+          {["Salesforce","Agentforce","Data Cloud","Experience Cloud","Applied AI","AI Agents","RAG","Cloud Architecture","Digital Product","Delivery Governance","Operating Models"].map(t => (
+            <span class="tag">{t}</span>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA BAND -->
+    <section class="cta-band" data-screen-label="CTA">
+      <div class="wrap cta-band__grid">
+        <div>
+          <p class="label reveal-fade">Next step</p>
+          <h2 class="cta-band__title reveal-up">¿Hablamos de tu próximo reto?</h2>
+        </div>
+        <a class="pill pill--solid reveal-up" href="/contact">
+          Cuéntame tu reto <span class="arrow" aria-hidden="true">→</span>
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+
+  <Fragment slot="scripts">
+    <script src="/assets/about.js" is:inline></script>
+    <script src="/assets/certifications.js" is:inline></script>
+  </Fragment>
+</BaseLayout>
