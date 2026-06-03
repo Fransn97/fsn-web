@@ -23,21 +23,27 @@ export default async function handler(req, res) {
     return;
   }
 
-  const content = JSON.stringify({ token: data.access_token, provider: "github" });
-  const msg = "authorization:github:success:" + content;
+  const content = { token: data.access_token, provider: "github" };
 
-  // COOP unsafe-none preserves window.opener across cross-origin navigation
-  res.setHeader("Cross-Origin-Opener-Policy", "unsafe-none");
   res.setHeader("Content-Type", "text/html");
   res.send(`<!doctype html><html><body><script>
 (function() {
-  var msg = ${JSON.stringify(msg)};
-  if (window.opener) {
-    window.opener.postMessage(msg, '*');
-    setTimeout(function() { window.close(); }, 100);
-  } else {
-    document.body.innerHTML = '<p style="font-family:sans-serif;padding:2rem">Autenticado correctamente. Cierra esta pestaña y vuelve al CMS.</p>';
+  var provider = "github";
+  var content = ${JSON.stringify(content)};
+
+  function receiveMessage(e) {
+    // El opener confirmó que está listo: enviamos el token
+    window.opener.postMessage(
+      "authorization:" + provider + ":success:" + JSON.stringify(content),
+      e.origin
+    );
+    window.removeEventListener("message", receiveMessage, false);
   }
+
+  window.addEventListener("message", receiveMessage, false);
+
+  // Paso 1 del handshake: avisamos al opener que estamos autorizando
+  window.opener.postMessage("authorizing:" + provider, "*");
 })();
 </script></body></html>`);
 }
