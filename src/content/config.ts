@@ -8,6 +8,7 @@ const insights = defineCollection({
     category: z.string(),
     readTime: z.string(),
     publishedAt: z.string(),
+    image: z.string().optional(),
   }),
 });
 
@@ -21,6 +22,7 @@ const cases = defineCollection({
     approach: z.string(),
     result: z.string(),
     stack: z.array(z.string()).optional(),
+    image: z.string().optional(),
   }),
 });
 

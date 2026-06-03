@@ -2,9 +2,17 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
-import { POSITIONING, PILLARS, CASES, INSIGHTS, CONTACT } from "../data/content";
+import StyledImage from "../components/StyledImage.astro";
+import { POSITIONING, PILLARS, CONTACT } from "../data/content";
+import { getCollection } from "astro:content";
+import home from "../data/home.json";
 
 const pad = (n: number) => String(n).padStart(2, "0");
+
+const cases = (await getCollection("cases")).slice(0, 3);
+const insights = (await getCollection("insights"))
+  .sort((a, b) => new Date(b.data.publishedAt).getTime() - new Date(a.data.publishedAt).getTime())
+  .slice(0, 3);
 ---
 
 <BaseLayout
@@ -15,29 +23,27 @@ const pad = (n: number) => String(n).padStart(2, "0");
   ogDescription="Convierto problemas complejos en sistemas escalables, gobernables y medibles. IA aplicada · Salesforce · Delivery."
 >
   <Fragment slot="head">
-    <script type="application/ld+json">
-      {JSON.stringify({
-        "@context": "https://schema.org",
-        "@graph": [
-          {
-            "@type": "Person",
-            name: "Francisco Sánchez Nieves",
-            jobTitle: "Technology Transformation Consultant — AI & Salesforce",
-            url: "https://franciscosancheznieves.com/",
-            email: "hola@franciscosancheznieves.com",
-            sameAs: ["https://www.linkedin.com/in/francisco-sanchez-nieves"],
-            address: { "@type": "PostalAddress", addressLocality: "Madrid", addressCountry: "ES" },
-            knowsAbout: ["Applied AI", "Salesforce", "Agentforce", "Data Cloud", "Experience Cloud", "CRM Transformation", "M&A IT", "Technology Delivery"],
-          },
-          {
-            "@type": "WebSite",
-            name: "Francisco Sánchez Nieves",
-            url: "https://franciscosancheznieves.com/",
-            inLanguage: "es-ES",
-          },
-        ],
-      })}
-    </script>
+    <script type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Person",
+          name: "Francisco Sánchez Nieves",
+          jobTitle: "Technology Transformation Consultant — AI & Salesforce",
+          url: "https://franciscosancheznieves.com/",
+          email: "hola@franciscosancheznieves.com",
+          sameAs: ["https://www.linkedin.com/in/francisco-sanchez-nieves"],
+          address: { "@type": "PostalAddress", addressLocality: "Madrid", addressCountry: "ES" },
+          knowsAbout: ["Applied AI", "Salesforce", "Agentforce", "Data Cloud", "Experience Cloud", "CRM Transformation", "M&A IT", "Technology Delivery"],
+        },
+        {
+          "@type": "WebSite",
+          name: "Francisco Sánchez Nieves",
+          url: "https://franciscosancheznieves.com/",
+          inLanguage: "es-ES",
+        },
+      ],
+    })} />
   </Fragment>
 
   <Header />
@@ -47,21 +53,18 @@ const pad = (n: number) => String(n).padStart(2, "0");
     <section class="hero wrap" data-screen-label="Hero">
       <canvas class="hero__bg" id="hero-bg" aria-hidden="true"></canvas>
       <div class="hero__top">
-        <p class="hero__concept reveal-fade">AI · Salesforce · Technology Transformation</p>
-        <p class="hero__status reveal-fade">Madrid · Remote (EU) — Available for advisory</p>
+        <p class="hero__concept reveal-fade">{home.heroConcept}</p>
+        <p class="hero__status reveal-fade">{home.heroStatus}</p>
       </div>
       <div class="hero__main">
         <div class="hero__lead">
           <h1 class="display hero__headline reveal">
-            <span class="ln"><span class="ln-inner">Francisco</span></span>
-            <span class="ln"><span class="ln-inner">Sánchez</span></span>
-            <span class="ln"><span class="ln-inner">Nieves</span></span>
+            <span class="ln"><span class="ln-inner">{home.heroFirstName}</span></span>
+            <span class="ln"><span class="ln-inner">{home.heroLastName1}</span></span>
+            <span class="ln"><span class="ln-inner">{home.heroLastName2}</span></span>
           </h1>
-          <p class="hero__role reveal-up">IA, Salesforce y transformación <em>en producción.</em></p>
-          <p class="hero__subtext reveal-up">
-            Combino visión de negocio, arquitectura funcional y delivery tecnológico para convertir
-            problemas complejos en sistemas escalables, gobernables y medibles.
-          </p>
+          <p class="hero__role reveal-up" set:html={home.heroRole} />
+          <p class="hero__subtext reveal-up">{home.heroSubtext}</p>
           <div class="hero__cta reveal-up">
             <a class="pill pill--solid" href="#case-studies" data-cta="hero-primary"
               >Ver casos de transformación <span class="arrow" aria-hidden="true">→</span></a
@@ -72,19 +75,19 @@ const pad = (n: number) => String(n).padStart(2, "0");
           </div>
         </div>
         <figure class="hero__portrait reveal-up">
-          <span class="hero__portrait-tag">FSN</span>
           <div class="hero__slot-wrap">
-            <image-slot
-              id="hero-portrait"
+            <StyledImage
+              src={home.heroPortrait}
+              alt="Francisco Sánchez Nieves"
+              tag="FSN"
+              placeholder="Tu retrato"
+              loading="eager"
               class="hero__slot"
-              shape="rect"
-              fit="cover"
-              placeholder="Arrastra tu retrato"
-            ></image-slot>
+            />
           </div>
           <figcaption class="hero__portrait-cap">
-            <span class="k">Consultor · IA &amp; Salesforce</span>
-            <span>Madrid / Remote (EU)</span>
+            <span class="k">{home.heroCaptionRole}</span>
+            <span>{home.heroCaptionBase}</span>
           </figcaption>
         </figure>
       </div>
@@ -98,13 +101,11 @@ const pad = (n: number) => String(n).padStart(2, "0");
     <section class="section--tight image-band wrap" data-screen-label="Transición">
       <div class="image-band__grid">
         <figure class="image-band__a reveal-up">
-          <div class="ph ph--duotone">
-            <div class="ph__label">[ Whiteboard / framing de la solución ]</div>
-          </div>
+          <StyledImage src={home.bandImageA} placeholder="Framing / estrategia" ratio="16 / 10" />
           <figcaption><span>01 — Framing</span><span>Estrategia · Diseño funcional</span></figcaption>
         </figure>
         <figure class="image-band__b reveal-up">
-          <div class="ph ph--duotone"><div class="ph__label">[ Sistema en operación ]</div></div>
+          <StyledImage src={home.bandImageB} placeholder="Delivery / sistema" ratio="4 / 5" />
           <figcaption><span>02 — Delivery</span><span>IA · Salesforce</span></figcaption>
         </figure>
       </div>
@@ -114,19 +115,10 @@ const pad = (n: number) => String(n).padStart(2, "0");
     <section class="section statement" data-screen-label="Posicionamiento">
       <div class="wrap statement__grid">
         <p class="label reveal-fade">Posicionamiento — 01</p>
-        <h2 class="statement__big reveal-up">
-          Trabajo en la intersección entre negocio, tecnología y <em>ejecución.</em>
-        </h2>
+        <h2 class="statement__big reveal-up">{home.statementBig}</h2>
         <div class="statement__cols">
-          <p class="reveal-up">
-            Mi trabajo se sitúa entre la estrategia, el diseño funcional y la ejecución tecnológica.
-            Traduzco necesidades complejas en modelos operativos, arquitecturas Salesforce y
-            soluciones de IA que funcionan en entornos reales.
-          </p>
-          <p class="k reveal-up">
-            Visión de negocio. Criterio tecnológico. Capacidad de estructurar procesos. Experiencia
-            en Salesforce. Foco en IA aplicada. Delivery real, de la idea a producción.
-          </p>
+          <p class="reveal-up">{home.statementLeft}</p>
+          <p class="k reveal-up">{home.statementRight}</p>
         </div>
         <div class="statement__blocks">
           {
@@ -198,33 +190,31 @@ const pad = (n: number) => String(n).padStart(2, "0");
         </div>
         <div class="cases">
           {
-            CASES.map((c, i) => (
+            cases.map((c, i) => (
               <article class="case reveal-up">
                 <div class="case__media">
                   <div class="case__num">CS/{pad(i + 1)}</div>
-                  <div class="ph ph--duotone case__img">
-                    <div class="ph__label">[ {c.img} ]</div>
-                  </div>
+                  <StyledImage src={c.data.image} placeholder={c.data.category} class="case__img" ratio="16 / 10" />
                   <div class="case__cat">
-                    <span class="tag">{c.cat}</span>
+                    <span class="tag">{c.data.category}</span>
                   </div>
                 </div>
                 <div class="case__head">
-                  <h3 class="case__title">{c.title}</h3>
+                  <h3 class="case__title">{c.data.title}</h3>
                 </div>
-                <p class="case__summary">{c.context}</p>
+                <p class="case__summary">{c.data.context}</p>
                 <dl class="case__meta">
                   <div>
                     <dt>Mi rol</dt>
-                    <dd>{c.role}</dd>
+                    <dd>{c.data.role}</dd>
                   </div>
                   <div>
                     <dt>Approach</dt>
-                    <dd>{c.approach}</dd>
+                    <dd>{c.data.approach}</dd>
                   </div>
                   <div class="case__meta-wide">
                     <dt>Resultado</dt>
-                    <dd>{c.result}</dd>
+                    <dd>{c.data.result}</dd>
                   </div>
                 </dl>
                 <div class="case__foot">
@@ -257,28 +247,22 @@ const pad = (n: number) => String(n).padStart(2, "0");
         </div>
         <div class="ideas__grid">
           {
-            INSIGHTS.map((a, i) => (
+            insights.map((a, i) => (
               <article class={`idea${i === 0 ? " idea--feat" : ""} reveal-up`}>
                 <div class="idea__media">
-                  <image-slot
-                    id={`idea-${i}`}
-                    class="idea__slot"
-                    shape="rect"
-                    fit="cover"
-                    placeholder={a.img}
-                  />
-                  <span class="idea__cat">{a.cat}</span>
+                  <StyledImage src={a.data.image} placeholder={a.data.category} class="idea__slot" ratio="16 / 10" />
+                  <span class="idea__cat">{a.data.category}</span>
                 </div>
                 <div class="idea__body">
                   <h3 class="idea__title">
-                    <a href={`/insights/${a.slug}`}>{a.title}</a>
+                    <a href={`/insights/${a.slug}`}>{a.data.title}</a>
                   </h3>
-                  <p class="idea__excerpt">{a.excerpt}</p>
+                  <p class="idea__excerpt">{a.data.excerpt}</p>
                   <div class="idea__foot">
                     <a class="tlink" href={`/insights/${a.slug}`}>
                       Leer <span class="arrow" aria-hidden="true">→</span>
                     </a>
-                    <span class="idea__time">{a.time}</span>
+                    <span class="idea__time">{a.data.readTime}</span>
                   </div>
                 </div>
               </article>
@@ -325,17 +309,10 @@ const pad = (n: number) => String(n).padStart(2, "0");
         <p class="label reveal-fade" style="margin-bottom:clamp(36px,5vw,64px)">About — 05</p>
         <div class="about__grid">
           <div class="about__intro">
-            <h2 class="about__lead reveal-up">De Ávila a la transformación tecnológica.</h2>
+            <h2 class="about__lead reveal-up">{home.aboutLead}</h2>
             <div class="about__text">
-              <p class="reveal-up">
-                Soy Francisco Sánchez Nieves. Conecto negocio, arquitectura y delivery para
-                convertir problemas complejos en soluciones digitales que llegan a producción — con
-                Salesforce, IA aplicada, cloud y criterio.
-              </p>
-              <p class="reveal-up">
-                Hoy lidero proyectos de transformación como Manager en consultoría tecnológica. Pero
-                el hilo viene de lejos.
-              </p>
+              <p class="reveal-up">{home.aboutText1}</p>
+              <p class="reveal-up">{home.aboutText2}</p>
             </div>
             <a class="pill pill--solid reveal-up about__more" href="/about"
               >Conoce mi historia <span class="arrow" aria-hidden="true">→</span></a
@@ -343,17 +320,16 @@ const pad = (n: number) => String(n).padStart(2, "0");
           </div>
           <div class="about__portrait reveal-up">
             <div class="hero__slot-wrap about__slot-wrap">
-              <span class="hero__portrait-tag">FSN</span>
-              <image-slot
-                id="about-home-portrait"
+              <StyledImage
+                src={home.aboutPortrait}
+                alt="Francisco Sánchez Nieves"
+                tag="FSN"
+                placeholder="Tu retrato"
                 class="hero__slot"
-                shape="rect"
-                fit="cover"
-                placeholder="Arrastra tu retrato"
-              ></image-slot>
+              />
             </div>
             <div class="about__cap">
-              <span>Consultor · IA &amp; Salesforce</span><span>Madrid / Remote</span>
+              <span>{home.heroCaptionRole}</span><span>Madrid / Remote</span>
             </div>
           </div>
         </div>

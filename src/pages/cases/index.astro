@@ -2,6 +2,7 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import Header from "../../components/Header.astro";
 import Footer from "../../components/Footer.astro";
+import StyledImage from "../../components/StyledImage.astro";
 import { getCollection } from "astro:content";
 
 const cases = await getCollection("cases");
@@ -34,9 +35,7 @@ const pad = (n: number) => String(n).padStart(2, "0");
             <article class="case reveal-up">
               <div class="case__media">
                 <div class="case__num">CS/{pad(i + 1)}</div>
-                <div class="ph ph--duotone case__img">
-                  <div class="ph__label">[ {c.data.category} ]</div>
-                </div>
+                <StyledImage src={c.data.image} placeholder={c.data.category} class="case__img" ratio="16 / 10" />
                 <div class="case__cat">
                   <span class="tag">{c.data.category}</span>
                 </div>

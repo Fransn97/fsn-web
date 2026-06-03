@@ -2,6 +2,7 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
+import StyledImage from "../components/StyledImage.astro";
 
 const journey = [
   { id: "ch-01", step: "01", label: "Origen", place: "Ávila, España · Origen", title: "Donde empieza todo", text: "Nací en Ávila. Murallas, piedra y horizonte: lo primero que aprendí fue a mirar las cosas con estructura y con perspectiva. Dos cosas que no he soltado desde entonces." },
@@ -44,7 +45,7 @@ const journey = [
       <figure class="ahero__portrait reveal-up">
         <span class="ahero__tag">FSN</span>
         <div class="ahero__slot-wrap">
-          <image-slot id="about-hero" class="ahero__slot" shape="rect" fit="cover" placeholder="Arrastra tu retrato"></image-slot>
+          <StyledImage src={null} alt="Francisco Sánchez Nieves" placeholder="Tu retrato" loading="eager" class="ahero__slot" />
         </div>
       </figure>
     </section>
@@ -68,7 +69,7 @@ const journey = [
             <article class="chapter reveal-up" id={ch.id} data-step={ch.step}>
               <div class="chapter__media">
                 <span class="chapter__no">{ch.step}</span>
-                <image-slot id={`jr-${ch.step}`} class="chapter__slot" shape="rect" fit="cover" placeholder={ch.place}></image-slot>
+                <StyledImage src={null} placeholder={ch.place} class="chapter__slot" ratio="4 / 3" />
               </div>
               <div class="chapter__txt">
                 <p class="chapter__place">{ch.place}</p>

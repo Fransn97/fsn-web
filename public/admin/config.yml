@@ -24,6 +24,7 @@ collections:
       - { label: Categoría, name: category, widget: string }
       - { label: Tiempo de lectura, name: readTime, widget: string, hint: "Ej: 8 min" }
       - { label: Fecha de publicación, name: publishedAt, widget: datetime, date_format: "YYYY-MM-DD", time_format: false, format: "YYYY-MM-DD" }
+      - { label: Imagen, name: image, widget: image, required: false, hint: "Se aplica el filtro de estilo automáticamente" }
       - { label: Contenido, name: body, widget: markdown }
 
   - name: cases
@@ -45,4 +46,32 @@ collections:
         widget: list
         allow_add: true
         field: { label: Tecnología, name: item, widget: string }
+      - { label: Imagen, name: image, widget: image, required: false, hint: "Se aplica el filtro de estilo automáticamente" }
       - { label: Contenido, name: body, widget: markdown }
+
+  - name: pages
+    label: Páginas
+    files:
+      - name: home
+        label: Home (Inicio)
+        file: src/data/home.json
+        fields:
+          - { label: "Hero — Concepto (línea superior)", name: heroConcept, widget: string }
+          - { label: "Hero — Estado/disponibilidad", name: heroStatus, widget: string }
+          - { label: "Hero — Nombre", name: heroFirstName, widget: string }
+          - { label: "Hero — Apellido 1", name: heroLastName1, widget: string }
+          - { label: "Hero — Apellido 2", name: heroLastName2, widget: string }
+          - { label: "Hero — Rol (admite <em>)", name: heroRole, widget: string }
+          - { label: "Hero — Subtexto", name: heroSubtext, widget: text }
+          - { label: "Hero — Retrato", name: heroPortrait, widget: image, required: false }
+          - { label: "Hero — Caption rol", name: heroCaptionRole, widget: string }
+          - { label: "Hero — Caption base", name: heroCaptionBase, widget: string }
+          - { label: "Banda — Imagen A", name: bandImageA, widget: image, required: false }
+          - { label: "Banda — Imagen B", name: bandImageB, widget: image, required: false }
+          - { label: "Posicionamiento — Titular", name: statementBig, widget: text }
+          - { label: "Posicionamiento — Columna izquierda", name: statementLeft, widget: text }
+          - { label: "Posicionamiento — Columna derecha", name: statementRight, widget: text }
+          - { label: "About — Titular", name: aboutLead, widget: string }
+          - { label: "About — Párrafo 1", name: aboutText1, widget: text }
+          - { label: "About — Párrafo 2", name: aboutText2, widget: text }
+          - { label: "About — Retrato", name: aboutPortrait, widget: image, required: false }

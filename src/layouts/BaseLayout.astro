@@ -48,7 +48,6 @@ const canonicalUrl = canonical ?? Astro.url.href;
   </head>
   <body class={bodyClass}>
     <slot />
-    <script src="/assets/image-slot.js" is:inline></script>
     <script src="/assets/motion.js" is:inline></script>
     <slot name="scripts" />
     <script>
