@@ -23,10 +23,21 @@ export default async function handler(req, res) {
     return;
   }
 
-  const token = JSON.stringify({ token: data.access_token, provider: "github" });
+  const content = JSON.stringify({ token: data.access_token, provider: "github" });
+  const msg = "authorization:github:success:" + content;
+
+  // COOP unsafe-none preserves window.opener across cross-origin navigation
+  res.setHeader("Cross-Origin-Opener-Policy", "unsafe-none");
   res.setHeader("Content-Type", "text/html");
-  res.send(`<script>
-    window.opener.postMessage('authorization:github:success:${token}', '*');
-    window.close();
-  </script>`);
+  res.send(`<!doctype html><html><body><script>
+(function() {
+  var msg = ${JSON.stringify(msg)};
+  if (window.opener) {
+    window.opener.postMessage(msg, '*');
+    setTimeout(function() { window.close(); }, 100);
+  } else {
+    document.body.innerHTML = '<p style="font-family:sans-serif;padding:2rem">Autenticado correctamente. Cierra esta pestaña y vuelve al CMS.</p>';
+  }
+})();
+</script></body></html>`);
 }
