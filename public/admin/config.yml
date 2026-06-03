@@ -23,7 +23,7 @@ collections:
       - { label: Extracto, name: excerpt, widget: text }
       - { label: Categoría, name: category, widget: string }
       - { label: Tiempo de lectura, name: readTime, widget: string, hint: "Ej: 8 min" }
-      - { label: Fecha de publicación, name: publishedAt, widget: date, format: YYYY-MM-DD }
+      - { label: Fecha de publicación, name: publishedAt, widget: datetime, date_format: "YYYY-MM-DD", time_format: false, format: "YYYY-MM-DD" }
       - { label: Contenido, name: body, widget: markdown }
 
   - name: cases
