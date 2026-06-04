@@ -1,0 +1,83 @@
+---
+/**
+ * Ticker — cinta de texto en bucle. Eco del Hero, reutilizable.
+ * variant "line": borde fino, fondo transparente (hero).
+ * variant "band": banda sólida oscura full-bleed (separador entre secciones).
+ */
+interface Props {
+  items: string[];
+  variant?: "line" | "band";
+  reverse?: boolean;
+  speed?: number; // segundos por vuelta
+}
+const { items, variant = "line", reverse = false, speed = 38 } = Astro.props;
+const loop = [...items, ...items, ...items];
+---
+
+<div class:list={["ticker", `ticker--${variant}`]} aria-hidden="true">
+  <div
+    class:list={["ticker__track", { "ticker__track--rev": reverse }]}
+    style={`animation-duration:${speed}s`}
+  >
+    {loop.map((t) => <span class="ticker__item">{t}</span>)}
+  </div>
+</div>
+
+<style>
+  .ticker {
+    position: relative;
+    overflow: hidden;
+    width: 100vw;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  .ticker--line {
+    border-top: 1.5px solid var(--ink);
+    border-bottom: 1.5px solid var(--ink);
+  }
+  .ticker--band {
+    background: var(--ink);
+  }
+  .ticker__track {
+    display: inline-flex;
+    white-space: nowrap;
+    animation: ticker-scroll 38s linear infinite;
+  }
+  .ticker__track--rev {
+    animation-direction: reverse;
+  }
+  .ticker:hover .ticker__track {
+    animation-play-state: paused;
+  }
+  .ticker__item {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    padding: 15px 0;
+    display: inline-flex;
+    align-items: center;
+  }
+  .ticker--line .ticker__item {
+    color: var(--ink);
+  }
+  .ticker--band .ticker__item {
+    color: var(--bg);
+  }
+  .ticker__item::after {
+    content: "·";
+    margin: 0 clamp(22px, 3vw, 44px);
+    opacity: 0.5;
+  }
+  .ticker--band .ticker__item::after {
+    color: var(--accent);
+    opacity: 1;
+  }
+  @keyframes ticker-scroll {
+    from { transform: translateX(0); }
+    to { transform: translateX(-33.333%); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .ticker__track { animation: none; }
+  }
+</style>

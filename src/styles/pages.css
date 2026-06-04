@@ -93,7 +93,7 @@
 .article__author {
   display: flex; align-items: center; gap: 16px; margin-top: 48px; padding-top: 28px; border-top: 1px solid var(--line);
 }
-.article__avatar { width: 46px; height: 46px; border-radius: 999px; background: var(--ink); color: var(--bg); display: grid; place-items: center; font-family: var(--font-mono); font-size: 0.74rem; letter-spacing: 0.06em; flex: none; }
+.article__avatar { width: 46px; height: 46px; background: var(--ink); color: var(--bg); display: grid; place-items: center; font-family: var(--font-mono); font-size: 0.74rem; letter-spacing: 0.06em; flex: none; }
 .article__author-meta { font-family: var(--font-mono); font-size: 0.78rem; line-height: 1.5; color: var(--ink-soft); }
 .article__author-meta b { color: var(--ink); font-weight: 600; }
 

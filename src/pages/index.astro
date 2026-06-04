@@ -3,6 +3,8 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import StyledImage from "../components/StyledImage.astro";
+import Ticker from "../components/Ticker.astro";
+import BgWord from "../components/BgWord.astro";
 import { POSITIONING, PILLARS, CONTACT } from "../data/content";
 import { getCollection } from "astro:content";
 import home from "../data/home.json";
@@ -82,14 +84,8 @@ const insights = (await getCollection("insights"))
         </div>
       </div>
 
-      <div class="hero__ticker reveal-fade" aria-hidden="true">
-        <div class="hero__ticker-track">
-          {
-            [...home.heroTicker, ...home.heroTicker, ...home.heroTicker].map((t) => (
-              <span class="hero__ticker-item">{t}</span>
-            ))
-          }
-        </div>
+      <div class="hero__ticker-slot reveal-fade">
+        <Ticker items={home.heroTicker} variant="line" />
       </div>
     </section>
 
@@ -109,6 +105,7 @@ const insights = (await getCollection("insights"))
 
     <!-- POSITIONING -->
     <section class="section statement" data-screen-label="Posicionamiento">
+      <BgWord text="NEGOCIO" />
       <div class="wrap statement__grid">
         <p class="label reveal-fade">Posicionamiento — 01</p>
         <h2 class="statement__big reveal-up">{home.statementBig}</h2>
@@ -299,6 +296,14 @@ const insights = (await getCollection("insights"))
       </div>
     </section>
 
+    <!-- SECTOR SEPARATOR (eco del hero) -->
+    <Ticker
+      variant="band"
+      reverse
+      speed={46}
+      items={["Industrial Products", "Construction", "Media & Telco", "Enterprise Delivery", "Applied AI", "Salesforce"]}
+    />
+
     <!-- ABOUT -->
     <section class="section about about--home" id="about" data-screen-label="About">
       <div class="wrap">
@@ -334,6 +339,7 @@ const insights = (await getCollection("insights"))
 
     <!-- CONTACT -->
     <section class="section contact" id="contact" data-screen-label="Contact">
+      <BgWord text="HABLEMOS" reverse />
       <div class="wrap contact__grid">
         <div>
           <p class="label reveal-fade">Contact — 06</p>

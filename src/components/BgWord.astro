@@ -1,0 +1,54 @@
+---
+/**
+ * BgWord — palabra gigante tenue de fondo de sección. Eco del Hero.
+ * La sección contenedora debe ser position:relative y su contenido z-index ≥ 1.
+ */
+interface Props {
+  text: string;
+  reverse?: boolean;
+}
+const { text, reverse = false } = Astro.props;
+---
+
+<div class:list={["bgword", { "bgword--rev": reverse }]} aria-hidden="true">
+  <span class="bgword__text">{text}</span>
+</div>
+
+<style>
+  .bgword {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+    pointer-events: none;
+    user-select: none;
+    display: flex;
+    align-items: center;
+  }
+  .bgword__text {
+    font-family: var(--font-display);
+    text-transform: uppercase;
+    font-size: 19vw;
+    line-height: 1;
+    white-space: nowrap;
+    color: var(--ink);
+    opacity: 0.035;
+    will-change: transform;
+    animation: bgword-drift 52s ease-in-out infinite alternate;
+  }
+  .bgword--rev .bgword__text {
+    animation-name: bgword-drift-rev;
+    margin-left: auto;
+  }
+  @keyframes bgword-drift {
+    from { transform: translateX(-3%); }
+    to { transform: translateX(-14%); }
+  }
+  @keyframes bgword-drift-rev {
+    from { transform: translateX(3%); }
+    to { transform: translateX(14%); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .bgword__text { animation: none; }
+  }
+</style>

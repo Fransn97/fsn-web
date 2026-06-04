@@ -188,7 +188,7 @@ button { font-family: inherit; cursor: pointer; }
 .lang {
   display: inline-flex; font-family: var(--font-mono);
   font-size: 0.7rem; letter-spacing: 0.12em; border: 1px solid var(--line);
-  border-radius: 999px; overflow: hidden;
+  border-radius: 0; overflow: hidden;
 }
 .lang button {
   background: transparent; border: 0; padding: 6px 11px; color: var(--ink-soft);
@@ -357,30 +357,11 @@ button { font-family: inherit; cursor: pointer; }
 /* Subtext + CTA inherit existing .hero__subtext / .hero__cta */
 .hero__subtext { max-width: 46ch; }
 
-/* Ticker — disciplines on loop */
-.hero__ticker {
-  position: relative; z-index: 1; margin-top: auto;
-  border-top: 1.5px solid var(--ink); border-bottom: 1.5px solid var(--ink);
-  overflow: hidden; width: 100vw; left: 50%; transform: translateX(-50%);
-}
-.hero__ticker-track {
-  display: inline-flex; white-space: nowrap;
-  animation: ticker-scroll 38s linear infinite;
-}
-.hero__ticker:hover .hero__ticker-track { animation-play-state: paused; }
-.hero__ticker-item {
-  font-family: var(--font-mono); font-size: 0.78rem; letter-spacing: 0.16em;
-  text-transform: uppercase; color: var(--ink); padding: 15px 0;
-  display: inline-flex; align-items: center;
-}
-.hero__ticker-item::after {
-  content: "·"; margin: 0 clamp(22px, 3vw, 44px); color: var(--accent-ink);
-  opacity: 0.4;
-}
-@keyframes ticker-scroll {
-  from { transform: translateX(0); }
-  to   { transform: translateX(-33.333%); }
-}
+/* Hero ticker slot — renders the shared <Ticker> component, pinned to bottom */
+.hero__ticker-slot { margin-top: auto; position: relative; z-index: 1; }
+
+/* Sections with a BgWord echo: keep content above the background word */
+.statement .wrap, .contact .wrap { position: relative; z-index: 1; }
 
 /* Background giant typography in slow drift */
 .hero__bgtype {
@@ -502,13 +483,13 @@ button { font-family: inherit; cursor: pointer; }
 .pillar__tags { display: flex; flex-wrap: wrap; gap: 7px; }
 .tag {
   font-family: var(--font-mono); font-size: 0.66rem; letter-spacing: 0.08em; text-transform: uppercase;
-  color: var(--ink-soft); border: 1px solid var(--line); border-radius: 999px; padding: 5px 11px;
+  color: var(--ink-soft); border: 1px solid var(--line); border-radius: 0; padding: 5px 11px;
   transition: border-color .3s, color .3s;
 }
 .pillar:hover .tag { border-color: var(--ink); color: var(--ink); }
 .pillar__go { padding-top: 0.4em; }
 .pillar__arrow {
-  width: 44px; height: 44px; border-radius: 999px; border: 1px solid var(--line);
+  width: 44px; height: 44px; border-radius: 0; border: 1px solid var(--line);
   display: grid; place-items: center; transition: background .35s, color .35s, transform .35s, border-color .35s;
 }
 .pillar:hover .pillar__arrow { background: var(--ink); color: var(--bg); transform: rotate(-45deg); border-color: var(--ink); }
@@ -819,7 +800,7 @@ body.js [data-stagger]:not(.is-in) > * { opacity: 0; transform: translateY(22px)
 }
 .chip {
   font-family: var(--font-mono); font-size: 0.66rem; letter-spacing: 0.1em; text-transform: uppercase;
-  color: var(--ink-soft); border: 1px solid var(--line); border-radius: 999px; padding: 6px 12px;
+  color: var(--ink-soft); border: 1px solid var(--line); border-radius: 0; padding: 6px 12px;
   background: color-mix(in srgb, var(--bg) 60%, transparent); backdrop-filter: blur(4px);
   transition: border-color .3s var(--ease), color .3s var(--ease);
 }
@@ -921,7 +902,7 @@ body.js [data-stagger]:not(.is-in) > * { opacity: 0; transform: translateY(22px)
 .news__pitch { font-size: 1.02rem; line-height: 1.6; color: var(--ink); margin: 0 0 26px; max-width: 40ch; }
 .news__form { display: flex; gap: 12px; flex-wrap: wrap; align-items: stretch; }
 .news__form input {
-  flex: 1 1 260px; background: transparent; border: 1px solid var(--line); border-radius: 999px;
+  flex: 1 1 260px; background: transparent; border: 1px solid var(--line); border-radius: 0;
   padding: 0.85em 1.2em; font-family: var(--font-mono); font-size: 0.86rem; color: var(--ink);
   transition: border-color .3s;
 }
