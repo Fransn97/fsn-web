@@ -51,50 +51,46 @@ const insights = (await getCollection("insights"))
   <main id="top">
     <!-- HERO -->
     <section class="hero wrap" data-screen-label="Hero">
-      <canvas class="hero__bg" id="hero-bg" aria-hidden="true"></canvas>
+      <div class="hero__bgtype" aria-hidden="true">
+        <div class="hero__bgtype-line hero__bgtype-line--a">NEGOCIO · PROCESO · RESULTADO · ESTRATEGIA · </div>
+        <div class="hero__bgtype-line hero__bgtype-line--b">SALESFORCE · IA · DELIVERY · CRITERIO · </div>
+        <div class="hero__bgtype-line hero__bgtype-line--c">INDUSTRIAL · CONSTRUCTION · MEDIA & TELCO · </div>
+      </div>
+
       <div class="hero__top">
         <p class="hero__concept reveal-fade">{home.heroConcept}</p>
         <p class="hero__status reveal-fade">{home.heroStatus}</p>
       </div>
+
       <div class="hero__main">
-        <div class="hero__lead">
-          <h1 class="display hero__headline reveal">
-            <span class="ln"><span class="ln-inner">{home.heroFirstName}</span></span>
-            <span class="ln"><span class="ln-inner">{home.heroLastName1}</span></span>
-            <span class="ln"><span class="ln-inner">{home.heroLastName2}</span></span>
-          </h1>
-          <p class="hero__role reveal-up" set:html={home.heroRole} />
-          <p class="hero__subtext reveal-up">{home.heroSubtext}</p>
-          <div class="hero__cta reveal-up">
-            <a class="pill pill--solid" href="#case-studies" data-cta="hero-primary"
-              >Ver casos de transformación <span class="arrow" aria-hidden="true">→</span></a
-            >
-            <a class="pill" href="#contact" data-cta="hero-secondary"
-              >Cuéntame tu reto <span class="arrow" aria-hidden="true">→</span></a
-            >
-          </div>
+        <h1 class="hero__statement reveal-up">
+          <span class="hero__statement-pre">{home.heroTitlePre}</span>{" "}
+          <span class="hero__rotator" data-words={home.heroRotator.join("|")}>
+            <span class="hero__rotator-word">{home.heroRotator[0]}</span>
+          </span>
+          <br />
+          <span class="hero__statement-post" set:html={home.heroTitlePost} />
+        </h1>
+        <p class="hero__subtext reveal-up">{home.heroSubtext}</p>
+        <div class="hero__cta reveal-up">
+          <a class="pill pill--accent" href="#contact" data-cta="hero-primary"
+            >Cuéntame tu reto <span class="arrow" aria-hidden="true">→</span></a
+          >
+          <a class="pill" href="#case-studies" data-cta="hero-secondary"
+            >Ver casos <span class="arrow" aria-hidden="true">→</span></a
+          >
         </div>
-        <figure class="hero__portrait reveal-up">
-          <div class="hero__slot-wrap">
-            <StyledImage
-              src={home.heroPortrait}
-              alt="Francisco Sánchez Nieves"
-              tag="FSN"
-              placeholder="Tu retrato"
-              loading="eager"
-              class="hero__slot"
-            />
-          </div>
-          <figcaption class="hero__portrait-cap">
-            <span class="k">{home.heroCaptionRole}</span>
-            <span>{home.heroCaptionBase}</span>
-          </figcaption>
-        </figure>
       </div>
-      <button class="hero__scroll" type="button" id="hero-scroll" aria-label="Desplázate a la siguiente sección">
-        <span class="hero__scroll-label">Scroll</span>
-        <span class="hero__scroll-track"><span class="hero__scroll-dot"></span></span>
-      </button>
+
+      <div class="hero__ticker reveal-fade" aria-hidden="true">
+        <div class="hero__ticker-track">
+          {
+            [...home.heroTicker, ...home.heroTicker, ...home.heroTicker].map((t) => (
+              <span class="hero__ticker-item">{t}</span>
+            ))
+          }
+        </div>
+      </div>
     </section>
 
     <!-- IMAGE BAND -->
@@ -406,6 +402,28 @@ const insights = (await getCollection("insights"))
   <Footer />
 
   <Fragment slot="scripts">
-    <script src="/assets/hero-bg.js" is:inline></script>
+    <script is:inline>
+      (function () {
+        const rot = document.querySelector(".hero__rotator");
+        if (!rot) return;
+        const words = (rot.dataset.words || "").split("|").filter(Boolean);
+        const el = rot.querySelector(".hero__rotator-word");
+        if (!el || words.length < 2) return;
+        if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+        let i = 0;
+        setInterval(function () {
+          i = (i + 1) % words.length;
+          const next = words[i];
+          el.classList.add("is-out");
+          setTimeout(function () {
+            el.textContent = next;
+            el.classList.remove("is-out");
+            el.classList.add("is-pre");
+            void el.offsetWidth; // reflow
+            el.classList.remove("is-pre");
+          }, 420);
+        }, 2600);
+      })();
+    </script>
   </Fragment>
 </BaseLayout>
