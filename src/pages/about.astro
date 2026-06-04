@@ -3,6 +3,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import StyledImage from "../components/StyledImage.astro";
+import "../styles/certifications.css";
 
 const journey = [
   { id: "ch-01", step: "01", label: "Origen", place: "Ávila, España · Origen", title: "Donde empieza todo", text: "Nací en Ávila. Murallas, piedra y horizonte: lo primero que aprendí fue a mirar las cosas con estructura y con perspectiva. Dos cosas que no he soltado desde entonces." },
@@ -22,10 +23,6 @@ const journey = [
   ogTitle="About · Francisco Sánchez Nieves"
   ogDescription="Una trayectoria, un mismo hilo: convertir lo complejo en soluciones digitales que funcionan."
 >
-  <Fragment slot="head">
-    <link rel="stylesheet" href="/assets/certifications.css" />
-  </Fragment>
-
   <Header />
 
   <main>
