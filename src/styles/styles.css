@@ -366,7 +366,7 @@ button { font-family: inherit; cursor: pointer; }
 }
 .hero__bgtype-line {
   font-family: var(--font-display); text-transform: uppercase;
-  color: transparent; -webkit-text-stroke: 1.5px rgba(26, 26, 23, 0.18);
+  color: transparent; -webkit-text-stroke: 1px rgba(26, 26, 23, 0.08);
   font-size: 13vw; line-height: 1; white-space: nowrap; will-change: transform;
 }
 .hero__bgtype-line--a { animation: hero-drift 46s ease-in-out infinite alternate; }
