@@ -72,6 +72,14 @@ button { font-family: inherit; cursor: pointer; }
   flex: none;
 }
 .label--plain::before { display: none; }
+/* C: marcador — línea de acento que se dibuja bajo el label al entrar */
+.label { position: relative; }
+.label::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: -10px; height: 2px;
+  background: var(--accent); transform: scaleX(0); transform-origin: left;
+  transition: transform .7s var(--ease) .15s;
+}
+.label.is-in::after { transform: scaleX(1); }
 
 /* index number marker */
 .idx {
@@ -449,9 +457,17 @@ button { font-family: inherit; cursor: pointer; }
 }
 .sec-head__title {
   font-family: var(--font-display); font-weight: 400; text-transform: uppercase;
-  line-height: 0.96; font-size: calc(clamp(2rem, 6vw, 5rem) * var(--type-scale)); margin: 0;
+  line-height: 0.94; font-size: calc(clamp(2.4rem, 7.6vw, 6.6rem) * var(--type-scale)); margin: 0;
   max-width: 16ch;
 }
+/* A: títulos de sección con wipe-reveal (clip) al entrar con scroll */
+.sec-head__title.reveal-up {
+  transition: opacity .7s var(--ease), transform .7s var(--ease), clip-path .9s var(--ease);
+}
+body.js .sec-head__title.reveal-up:not(.is-in) {
+  clip-path: inset(0 0 108% 0); opacity: 0; transform: translateY(6px);
+}
+.sec-head__title.reveal-up.is-in { clip-path: inset(0 0 -12% 0); transform: none; }
 .sec-head__aside { max-width: 38ch; color: var(--ink-soft); font-size: 0.92rem; line-height: 1.65; }
 
 .pillars { border-top: 1px solid var(--ink); }
