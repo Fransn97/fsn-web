@@ -56,5 +56,21 @@ import "../styles/pages.css";
       const y = document.getElementById("year");
       if (y) y.textContent = String(new Date().getFullYear());
     </script>
+    <script is:inline>
+      // Failsafe: si alguna animación de entrada no se dispara (IO diferido,
+      // pestaña en background, etc.), revela el contenido para que NUNCA
+      // quede invisible. La animación normal sigue funcionando si llega antes.
+      (function () {
+        function revealAll() {
+          document
+            .querySelectorAll(".reveal:not(.is-in),.reveal-up:not(.is-in),.reveal-fade:not(.is-in),[data-stagger]:not(.is-in)")
+            .forEach(function (el) { el.classList.add("is-in"); });
+        }
+        setTimeout(revealAll, 2500);
+        document.addEventListener("visibilitychange", function () {
+          if (!document.hidden) setTimeout(revealAll, 400);
+        });
+      })();
+    </script>
   </body>
 </html>

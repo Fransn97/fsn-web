@@ -135,15 +135,5 @@ for (let i = 0; i < nodes.length; i++) {
     background: var(--accent);
     padding: 4px 9px;
   }
-  /* deriva muy lenta del grafo al entrar en viewport */
-  .cvis__svg {
-    animation: cvis-drift 24s ease-in-out infinite alternate;
-  }
-  @keyframes cvis-drift {
-    from { transform: scale(1.02) translate(0, 0); }
-    to { transform: scale(1.06) translate(-2%, -1.5%); }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .cvis__svg { animation: none; }
-  }
+  /* grafo estático (sin animación continua, para un scroll fluido) */
 </style>

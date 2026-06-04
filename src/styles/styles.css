@@ -149,11 +149,9 @@ button { font-family: inherit; cursor: pointer; }
    ============================================================ */
 .header {
   position: sticky; top: 0; z-index: 60;
-  background: color-mix(in srgb, var(--bg) 82%, transparent);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  background: color-mix(in srgb, var(--bg) 95%, transparent);
   border-bottom: 1px solid transparent;
-  transition: border-color .4s var(--ease), background .4s var(--ease);
+  transition: border-color .4s var(--ease);
 }
 .header.is-stuck { border-color: var(--line); }
 .header__row {
@@ -375,7 +373,7 @@ button { font-family: inherit; cursor: pointer; }
 .hero__bgtype-line {
   font-family: var(--font-display); text-transform: uppercase;
   color: transparent; -webkit-text-stroke: 1px rgba(26, 26, 23, 0.08);
-  font-size: 13vw; line-height: 1; white-space: nowrap; will-change: transform;
+  font-size: 13vw; line-height: 1; white-space: nowrap;
 }
 .hero__bgtype-line--a { animation: hero-drift 46s ease-in-out infinite alternate; }
 .hero__bgtype-line--b { animation: hero-drift-r 58s ease-in-out infinite alternate; }
@@ -460,14 +458,7 @@ button { font-family: inherit; cursor: pointer; }
   line-height: 0.94; font-size: calc(clamp(2.4rem, 7.6vw, 6.6rem) * var(--type-scale)); margin: 0;
   max-width: 16ch;
 }
-/* A: títulos de sección con wipe-reveal (clip) al entrar con scroll */
-.sec-head__title.reveal-up {
-  transition: opacity .7s var(--ease), transform .7s var(--ease), clip-path .9s var(--ease);
-}
-body.js .sec-head__title.reveal-up:not(.is-in) {
-  clip-path: inset(0 0 108% 0); opacity: 0; transform: translateY(6px);
-}
-.sec-head__title.reveal-up.is-in { clip-path: inset(0 0 -12% 0); transform: none; }
+/* títulos de sección: reveal simple y robusto (sin clip-path frágil) */
 .sec-head__aside { max-width: 38ch; color: var(--ink-soft); font-size: 0.92rem; line-height: 1.65; }
 
 .pillars { border-top: 1px solid var(--ink); }
