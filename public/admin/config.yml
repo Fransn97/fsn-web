@@ -41,11 +41,7 @@ collections:
       - { label: Mi rol, name: role, widget: string }
       - { label: Approach, name: approach, widget: text }
       - { label: Resultado, name: result, widget: text }
-      - label: Stack
-        name: stack
-        widget: list
-        allow_add: true
-        field: { label: Tecnología, name: item, widget: string }
+      - { label: Stack, name: stack, widget: list, required: false, hint: "Tecnologías, una por línea" }
       - { label: Imagen, name: image, widget: image, required: false, hint: "Se aplica el filtro de estilo automáticamente" }
       - { label: Contenido, name: body, widget: markdown }
 
@@ -57,15 +53,12 @@ collections:
         file: src/data/home.json
         fields:
           - { label: "Hero — Concepto (línea superior)", name: heroConcept, widget: string }
-          - { label: "Hero — Estado/disponibilidad", name: heroStatus, widget: string }
-          - { label: "Hero — Nombre", name: heroFirstName, widget: string }
-          - { label: "Hero — Apellido 1", name: heroLastName1, widget: string }
-          - { label: "Hero — Apellido 2", name: heroLastName2, widget: string }
-          - { label: "Hero — Rol (admite <em>)", name: heroRole, widget: string }
+          - { label: "Hero — Estado / ubicación", name: heroStatus, widget: string }
+          - { label: "Hero — Titular (antes de la palabra que rota)", name: heroTitlePre, widget: string, hint: "Ej: Primero el" }
+          - { label: "Hero — Palabras que rotan", name: heroRotator, widget: list, hint: "Se alternan solas. Ej: negocio, proceso, problema, resultado" }
+          - { label: "Hero — Titular (después, admite <em>)", name: heroTitlePost, widget: string, hint: "Ej: Después la <em>tecnología.</em>" }
           - { label: "Hero — Subtexto", name: heroSubtext, widget: text }
-          - { label: "Hero — Retrato", name: heroPortrait, widget: image, required: false }
-          - { label: "Hero — Caption rol", name: heroCaptionRole, widget: string }
-          - { label: "Hero — Caption base", name: heroCaptionBase, widget: string }
+          - { label: "Hero — Ticker (cinta en bucle)", name: heroTicker, widget: list }
           - { label: "Banda — Imagen A", name: bandImageA, widget: image, required: false }
           - { label: "Banda — Imagen B", name: bandImageB, widget: image, required: false }
           - { label: "Posicionamiento — Titular", name: statementBig, widget: text }
