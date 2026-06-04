@@ -3,6 +3,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import StyledImage from "../components/StyledImage.astro";
+import CaseVisual from "../components/CaseVisual.astro";
 import Ticker from "../components/Ticker.astro";
 import BgWord from "../components/BgWord.astro";
 import { POSITIONING, PILLARS, CONTACT } from "../data/content";
@@ -93,11 +94,15 @@ const insights = (await getCollection("insights"))
     <section class="section--tight image-band wrap" data-screen-label="Transición">
       <div class="image-band__grid">
         <figure class="image-band__a reveal-up">
-          <StyledImage src={home.bandImageA} placeholder="Framing / estrategia" ratio="16 / 10" />
+          {home.bandImageA
+            ? <StyledImage src={home.bandImageA} ratio="16 / 10" />
+            : <CaseVisual seed={11} ratio="16 / 10" />}
           <figcaption><span>01 — Framing</span><span>Estrategia · Diseño funcional</span></figcaption>
         </figure>
         <figure class="image-band__b reveal-up">
-          <StyledImage src={home.bandImageB} placeholder="Delivery / sistema" ratio="4 / 5" />
+          {home.bandImageB
+            ? <StyledImage src={home.bandImageB} ratio="4 / 5" />
+            : <CaseVisual seed={7} ratio="4 / 5" />}
           <figcaption><span>02 — Delivery</span><span>IA · Salesforce</span></figcaption>
         </figure>
       </div>
@@ -187,7 +192,9 @@ const insights = (await getCollection("insights"))
               <article class="case reveal-up">
                 <div class="case__media">
                   <div class="case__num">CS/{pad(i + 1)}</div>
-                  <StyledImage src={c.data.image} placeholder={c.data.category} class="case__img" ratio="16 / 10" />
+                  {c.data.image
+                    ? <StyledImage src={c.data.image} class="case__img" ratio="16 / 10" />
+                    : <CaseVisual seed={i + 3} class="case__img" ratio="16 / 10" />}
                   <div class="case__cat">
                     <span class="tag">{c.data.category}</span>
                   </div>
@@ -243,7 +250,9 @@ const insights = (await getCollection("insights"))
             insights.map((a, i) => (
               <article class={`idea${i === 0 ? " idea--feat" : ""} reveal-up`}>
                 <div class="idea__media">
-                  <StyledImage src={a.data.image} placeholder={a.data.category} class="idea__slot" ratio="16 / 10" />
+                  {a.data.image
+                    ? <StyledImage src={a.data.image} class="idea__slot" ratio="16 / 10" />
+                    : <CaseVisual seed={i * 5 + 2} class="idea__slot" ratio="16 / 10" />}
                   <span class="idea__cat">{a.data.category}</span>
                 </div>
                 <div class="idea__body">

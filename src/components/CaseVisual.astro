@@ -1,0 +1,149 @@
+---
+/**
+ * CaseVisual — patrón generativo de nodos + conexiones, en duotono de marca.
+ * Reemplaza la foto en zonas anónimas (casos). Determinista por `seed`,
+ * así cada caso tiene un patrón propio pero estable entre builds.
+ * Evoca sistemas/arquitectura/redes — el trabajo de Francisco.
+ */
+interface Props {
+  seed?: number;
+  ratio?: string;
+  class?: string;
+  label?: string; // texto pequeño opcional (ej. categoría)
+}
+const { seed = 1, ratio = "16 / 10", class: className = "", label } = Astro.props;
+
+// PRNG determinista (mulberry32)
+function rng(s: number) {
+  return function () {
+    s |= 0;
+    s = (s + 0x6d2b79f5) | 0;
+    let t = Math.imul(s ^ (s >>> 15), 1 | s);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+
+const W = 320;
+const H = 200;
+const rand = rng(seed * 2654435761);
+const count = 9 + Math.floor(rand() * 4); // 9–12 nodos
+
+interface Node { x: number; y: number; r: number; accent: boolean; }
+const nodes: Node[] = [];
+for (let i = 0; i < count; i++) {
+  nodes.push({
+    x: 24 + rand() * (W - 48),
+    y: 24 + rand() * (H - 48),
+    r: 2.5 + rand() * 4.5,
+    accent: rand() < 0.18,
+  });
+}
+
+// Conexiones: cada nodo se une a su vecino más cercano (1–2 enlaces)
+interface Edge { a: number; b: number; }
+const edges: Edge[] = [];
+for (let i = 0; i < nodes.length; i++) {
+  const dists = nodes
+    .map((n, j) => ({ j, d: Math.hypot(n.x - nodes[i].x, n.y - nodes[i].y) }))
+    .filter((o) => o.j !== i)
+    .sort((a, b) => a.d - b.d);
+  const links = 1 + (rand() < 0.5 ? 1 : 0);
+  for (let k = 0; k < links && k < dists.length; k++) {
+    const b = dists[k].j;
+    if (!edges.some((e) => (e.a === i && e.b === b) || (e.a === b && e.b === i))) {
+      edges.push({ a: i, b });
+    }
+  }
+}
+---
+
+<figure class={`cvis ${className}`} style={`aspect-ratio:${ratio}`}>
+  <svg
+    class="cvis__svg"
+    viewBox={`0 0 ${W} ${H}`}
+    preserveAspectRatio="xMidYMid slice"
+    aria-hidden="true"
+  >
+    <g class="cvis__edges">
+      {edges.map((e) => (
+        <line x1={nodes[e.a].x} y1={nodes[e.a].y} x2={nodes[e.b].x} y2={nodes[e.b].y} />
+      ))}
+    </g>
+    <g class="cvis__nodes">
+      {nodes.map((n) => (
+        <circle cx={n.x} cy={n.y} r={n.r} class={n.accent ? "is-accent" : ""} />
+      ))}
+    </g>
+  </svg>
+  {label && <span class="cvis__label">{label}</span>}
+  <span class="cvis__overlay" aria-hidden="true"></span>
+</figure>
+
+<style>
+  .cvis {
+    position: relative;
+    margin: 0;
+    width: 100%;
+    overflow: hidden;
+    background: linear-gradient(135deg, #dad7cd 0%, #cdc9be 100%);
+    border: 1px solid var(--line);
+  }
+  .cvis__svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+  .cvis__edges line {
+    stroke: var(--ink);
+    stroke-width: 0.6;
+    opacity: 0.22;
+  }
+  .cvis__nodes circle {
+    fill: var(--ink);
+    opacity: 0.55;
+  }
+  .cvis__nodes circle.is-accent {
+    fill: var(--accent-ink);
+    opacity: 1;
+  }
+  /* halo verde detrás de los nodos accent */
+  .cvis__nodes circle.is-accent {
+    filter: drop-shadow(0 0 5px var(--accent));
+  }
+  .cvis__overlay {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(120% 90% at 28% 18%, rgba(255, 255, 255, 0.25), transparent 55%),
+      radial-gradient(90% 80% at 82% 92%, rgba(26, 26, 23, 0.18), transparent 58%);
+    mix-blend-mode: multiply;
+  }
+  .cvis__label {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    z-index: 2;
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--accent-ink);
+    background: var(--accent);
+    padding: 4px 9px;
+  }
+  /* deriva muy lenta del grafo al entrar en viewport */
+  .cvis__svg {
+    animation: cvis-drift 24s ease-in-out infinite alternate;
+  }
+  @keyframes cvis-drift {
+    from { transform: scale(1.02) translate(0, 0); }
+    to { transform: scale(1.06) translate(-2%, -1.5%); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .cvis__svg { animation: none; }
+  }
+</style>
