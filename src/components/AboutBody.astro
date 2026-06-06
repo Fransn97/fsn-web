@@ -1,0 +1,146 @@
+---
+import StyledImage from "./StyledImage.astro";
+import { localizePath, type Lang } from "../i18n/utils";
+
+interface Props { lang: Lang; }
+const { lang } = Astro.props;
+const p = (path: string) => localizePath(path, lang);
+
+const C = {
+  es: {
+    crumbHome: "Inicio",
+    kicker: "About — Francisco Sánchez Nieves",
+    heroTitle: 'De Ávila a la <em>transformación</em> tecnológica.',
+    heroLead: "Una trayectoria con un mismo hilo: convertir lo complejo en soluciones digitales que funcionan. Esta es la historia, etapa a etapa.",
+    certsEyebrow: "Credentials",
+    certsTitle: "Certificaciones profesionales",
+    certsIntro: "Credenciales obtenidas durante mi etapa en Deloitte. Validan mi experiencia en Salesforce, arquitectura CRM, datos, IA aplicada, gestión de proyectos y metodologías ágiles.",
+    visionKicker: "Visión",
+    visionBig: "Tecnología, producto digital e IA — para crear soluciones que escalan.",
+    ctaLabel: "Next step",
+    ctaTitle: "¿Hablamos de tu próximo reto?",
+    ctaBtn: "Cuéntame tu reto",
+    journey: [
+      { id: "ch-01", step: "01", label: "Origen", place: "Ávila, España · Origen", title: "Donde empieza todo", text: "Nací en Ávila. Murallas, piedra y horizonte: lo primero que aprendí fue a mirar las cosas con estructura y con perspectiva. Dos cosas que no he soltado desde entonces." },
+      { id: "ch-02", step: "02", label: "Formación", place: "Madrid · Formación", title: "El salto a Madrid", text: "Madrid fue el salto. La universidad, las primeras preguntas técnicas de verdad y la decisión de dedicarme a resolver problemas con tecnología." },
+      { id: "ch-03", step: "03", label: "Erasmus", place: "Hradec Králové, Chequia · Erasmus", title: "Salir de lo conocido", text: "Un Erasmus en Hradec Králové. Otro idioma, otra cultura, otra forma de trabajar. Aprendí a adaptarme y a entender que el contexto lo cambia todo." },
+      { id: "ch-04", step: "04", label: "Primeros pasos", place: "EY · Primeros pasos", title: "El rigor de empezar", text: "Arranqué mi carrera en EY, en auditoría tecnológica. Aprendí a leer sistemas, riesgos y controles — el rigor que sigo aplicando hoy a cada proyecto." },
+      { id: "ch-05", step: "05", label: "Consultoría", place: "Deloitte · Consultoría", title: "Consultoría de verdad", text: "Di el paso a la consultoría tecnológica en Deloitte. Proyectos reales, clientes enterprise y delivery de principio a fin, con todo lo que eso implica." },
+      { id: "ch-06", step: "06", label: "Hoy", place: "Manager · Hoy", title: "Liderar la transformación", text: "Hoy lidero como Manager: transformación digital, Salesforce, IA aplicada y arquitectura cloud, diseñando soluciones que escalan y llegan a producción." },
+      { id: "ch-07", step: "07", label: "Visión", place: "Lo que viene · Visión", title: "Construir lo siguiente", text: "Construir una marca personal sólida, compartir conocimiento y crear contenido y producto digital con impacto real. El mismo hilo, una capa más." },
+    ],
+  },
+  en: {
+    crumbHome: "Home",
+    kicker: "About — Francisco Sánchez Nieves",
+    heroTitle: 'From Ávila to technology <em>transformation</em>.',
+    heroLead: "One career with a single thread: turning the complex into digital solutions that work. This is the story, stage by stage.",
+    certsEyebrow: "Credentials",
+    certsTitle: "Professional certifications",
+    certsIntro: "Credentials earned during my time at Deloitte. They validate my experience in Salesforce, CRM architecture, data, applied AI, project management and agile methodologies.",
+    visionKicker: "Vision",
+    visionBig: "Technology, digital product and AI — to create solutions that scale.",
+    ctaLabel: "Next step",
+    ctaTitle: "Shall we talk about your next challenge?",
+    ctaBtn: "Tell me your challenge",
+    journey: [
+      { id: "ch-01", step: "01", label: "Origin", place: "Ávila, Spain · Origin", title: "Where it all begins", text: "I was born in Ávila. Walls, stone and horizon: the first thing I learned was to look at things with structure and perspective. Two things I haven't let go of since." },
+      { id: "ch-02", step: "02", label: "Education", place: "Madrid · Education", title: "The move to Madrid", text: "Madrid was the leap. University, the first real technical questions and the decision to dedicate myself to solving problems with technology." },
+      { id: "ch-03", step: "03", label: "Erasmus", place: "Hradec Králové, Czechia · Erasmus", title: "Leaving the familiar", text: "An Erasmus in Hradec Králové. Another language, another culture, another way of working. I learned to adapt and to understand that context changes everything." },
+      { id: "ch-04", step: "04", label: "First steps", place: "EY · First steps", title: "The rigor of starting", text: "I started my career at EY, in technology audit. I learned to read systems, risks and controls — the rigor I still apply to every project today." },
+      { id: "ch-05", step: "05", label: "Consulting", place: "Deloitte · Consulting", title: "Real consulting", text: "I made the move to technology consulting at Deloitte. Real projects, enterprise clients and delivery from start to finish, with everything that entails." },
+      { id: "ch-06", step: "06", label: "Today", place: "Manager · Today", title: "Leading transformation", text: "Today I lead as a Manager: digital transformation, Salesforce, applied AI and cloud architecture, designing solutions that scale and reach production." },
+      { id: "ch-07", step: "07", label: "Vision", place: "What's next · Vision", title: "Building what's next", text: "Building a solid personal brand, sharing knowledge and creating content and digital product with real impact. The same thread, one more layer." },
+    ],
+  },
+}[lang];
+---
+
+<main>
+  <section class="ahero wrap" data-screen-label="About hero">
+    <div class="ahero__lead-col">
+      <nav class="crumbs" aria-label="breadcrumb">
+        <a href={p("/")}>{C.crumbHome}</a><span class="sep" aria-hidden="true">/</span><span aria-current="page">About</span>
+      </nav>
+      <p class="ahero__kicker reveal-fade">{C.kicker}</p>
+      <h1 class="ahero__title reveal-up" set:html={C.heroTitle} />
+      <p class="ahero__lead reveal-up">{C.heroLead}</p>
+    </div>
+    <figure class="ahero__portrait reveal-up">
+      <span class="ahero__tag">FSN</span>
+      <div class="ahero__slot-wrap">
+        <StyledImage src={null} alt="Francisco Sánchez Nieves" placeholder="FSN" loading="eager" class="ahero__slot" />
+      </div>
+    </figure>
+  </section>
+
+  <section class="journey" id="journey" data-screen-label="Journey">
+    <div class="wrap journey__inner">
+      <aside class="journey__rail" aria-hidden="true">
+        <div class="journey__track"><span class="journey__fill" id="journey-fill"></span></div>
+        <ol class="journey__steps" id="journey-steps">
+          {C.journey.map((ch, i) => (
+            <li class={`jstep${i === 0 ? " is-active" : ""}`} data-target={ch.id}>
+              <span class="jstep__n">{ch.step}</span>
+              <span class="jstep__l">{ch.label}</span>
+            </li>
+          ))}
+        </ol>
+      </aside>
+      <div class="journey__chapters">
+        {C.journey.map((ch) => (
+          <article class="chapter reveal-up" id={ch.id} data-step={ch.step}>
+            <div class="chapter__media">
+              <span class="chapter__no">{ch.step}</span>
+              <StyledImage src={null} placeholder={ch.place} class="chapter__slot" ratio="4 / 3" />
+            </div>
+            <div class="chapter__txt">
+              <p class="chapter__place">{ch.place}</p>
+              <h2 class="chapter__title">{ch.title}</h2>
+              <p class="chapter__lead">{ch.text}</p>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="certs" id="certs" data-screen-label="Certificaciones">
+    <div class="wrap">
+      <div class="certs__head">
+        <div>
+          <p class="certs__eyebrow reveal-fade">{C.certsEyebrow}</p>
+          <h2 class="certs__title reveal-up">{C.certsTitle}</h2>
+        </div>
+        <p class="certs__intro reveal-up">{C.certsIntro}</p>
+      </div>
+      <div class="certs__metrics reveal-up" id="certs-metrics"></div>
+      <div class="certs__filters reveal-up" id="certs-filters"></div>
+      <div class="certs__grid" id="certs-grid"></div>
+    </div>
+  </section>
+
+  <section class="vision" data-screen-label="Visión">
+    <div class="wrap">
+      <p class="vision__kicker reveal-fade">{C.visionKicker}</p>
+      <h2 class="vision__big reveal-up">{C.visionBig}</h2>
+      <div class="vision__domains reveal-up">
+        {["Salesforce","Agentforce","Data Cloud","Experience Cloud","Applied AI","AI Agents","RAG","Cloud Architecture","Digital Product","Delivery Governance","Operating Models"].map((tg) => (
+          <span class="tag">{tg}</span>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-band" data-screen-label="CTA">
+    <div class="wrap cta-band__grid">
+      <div>
+        <p class="label reveal-fade">{C.ctaLabel}</p>
+        <h2 class="cta-band__title reveal-up">{C.ctaTitle}</h2>
+      </div>
+      <a class="pill pill--solid reveal-up" href={p("/contact")}>
+        {C.ctaBtn} <span class="arrow" aria-hidden="true">→</span>
+      </a>
+    </div>
+  </section>
+</main>

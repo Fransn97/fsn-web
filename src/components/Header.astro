@@ -1,33 +1,39 @@
 ---
-interface Props {
-  activePage?: string;
-}
-const { activePage } = Astro.props;
+import { getLangFromUrl, useTranslations, localizePath, alternatePath } from "../i18n/utils";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const p = (path: string) => localizePath(path, lang);
+const home = p("/");
 ---
 
 <header class="header">
   <div class="wrap header__row">
-    <a class="brand" href="/" aria-label="Francisco Sánchez Nieves — inicio">
+    <a class="brand" href={home} aria-label="Francisco Sánchez Nieves — inicio">
       <span class="brand__mark" aria-hidden="true"></span>
       Francisco Sánchez Nieves
     </a>
     <nav class="nav" aria-label="Principal">
-      <a class="nav__link" href="/#expertise">Expertise</a>
-      <a class="nav__link" href="/cases">Case Studies</a>
-      <a class="nav__link" href="/insights">Insights</a>
-      <a class="nav__link" href="/about">About</a>
-      <a class="nav__link" href="/contact">Contact</a>
+      <a class="nav__link" href={`${home}#expertise`}>{t("nav.expertise")}</a>
+      <a class="nav__link" href="/cases">{t("nav.cases")}</a>
+      <a class="nav__link" href="/insights">{t("nav.insights")}</a>
+      <a class="nav__link" href={p("/about")}>{t("nav.about")}</a>
+      <a class="nav__link" href={p("/contact")}>{t("nav.contact")}</a>
     </nav>
     <div class="header__right">
-      <a class="pill pill--solid pill--sm" href="/contact"
-        >Hablemos <span class="arrow" aria-hidden="true">→</span></a
+      <div class="lang" role="group" aria-label="Idioma / Language">
+        <a class={`lang__opt${lang === "es" ? " is-active" : ""}`} href={alternatePath(Astro.url, "es")}>ES</a>
+        <a class={`lang__opt${lang === "en" ? " is-active" : ""}`} href={alternatePath(Astro.url, "en")}>EN</a>
+      </div>
+      <a class="pill pill--solid pill--sm" href={p("/contact")}
+        >{t("nav.talk")} <span class="arrow" aria-hidden="true">→</span></a
       >
       <button
         class="pill pill--sm nav-toggle"
         id="nav-toggle"
-        aria-label="Abrir menú"
+        aria-label={t("nav.menu")}
         aria-controls="mobile-menu"
-        aria-expanded="false">Menú</button
+        aria-expanded="false">{t("nav.menu")}</button
       >
     </div>
   </div>
@@ -36,18 +42,18 @@ const { activePage } = Astro.props;
 <div class="mobile-menu" id="mobile-menu" aria-hidden="true">
   <div class="mobile-menu__top">
     <span class="brand"><span class="brand__mark" aria-hidden="true"></span> FSN</span>
-    <button class="pill pill--sm" id="menu-close" aria-label="Cerrar menú">Cerrar</button>
+    <button class="pill pill--sm" id="menu-close" aria-label={t("nav.close")}>{t("nav.close")}</button>
   </div>
   <nav aria-label="Móvil">
-    <a href="/#expertise">Expertise</a>
-    <a href="/cases">Case Studies</a>
-    <a href="/insights">Insights</a>
-    <a href="/about">About</a>
-    <a href="/contact">Contact</a>
+    <a href={`${home}#expertise`}>{t("nav.expertise")}</a>
+    <a href="/cases">{t("nav.cases")}</a>
+    <a href="/insights">{t("nav.insights")}</a>
+    <a href={p("/about")}>{t("nav.about")}</a>
+    <a href={p("/contact")}>{t("nav.contact")}</a>
   </nav>
   <div class="mobile-menu__foot">
-    <a class="pill pill--solid" href="/contact"
-      >Hablemos <span class="arrow" aria-hidden="true">→</span></a
+    <a class="pill pill--solid" href={p("/contact")}
+      >{t("nav.talk")} <span class="arrow" aria-hidden="true">→</span></a
     >
   </div>
 </div>

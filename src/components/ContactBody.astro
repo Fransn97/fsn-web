@@ -1,0 +1,63 @@
+---
+import { CONTACT } from "../data/content";
+import { useTranslations, type Lang } from "../i18n/utils";
+
+interface Props { lang: Lang; heading?: "h1" | "h2"; }
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+---
+
+<main>
+  <section class="section contact" id="contact" data-screen-label="Contact">
+    <div class="wrap contact__grid">
+      <div>
+        <p class="label reveal-fade">{t("contact.label")}</p>
+        <h1 class="contact__title reveal-up" style="margin-top:22px">{t("contact.title")}</h1>
+        <p class="contact__intro reveal-up">{t("contact.intro")}</p>
+        <div class="contact__detail reveal-up">
+          <a href={CONTACT.linkedin} target="_blank" rel="noopener noreferrer" data-social="linkedin">
+            <span class="k">LinkedIn</span><span>/in/francisco-sanchez-nieves →</span>
+          </a>
+          <a href={`mailto:${CONTACT.email}`} data-social="email">
+            <span class="k">Email</span><span>{CONTACT.email} →</span>
+          </a>
+          <span><span class="k">{t("contact.base")}</span><span>{CONTACT.base}</span></span>
+        </div>
+      </div>
+      <form class="form" id="contact-form" novalidate>
+        <div class="field--row">
+          <div class="field">
+            <label for="f-name">{t("form.name")}</label>
+            <input id="f-name" name="name" type="text" placeholder={t("form.ph.name")} autocomplete="name" required />
+          </div>
+          <div class="field">
+            <label for="f-email">{t("form.email")}</label>
+            <input id="f-email" name="email" type="email" placeholder="tu@email.com" autocomplete="email" required />
+          </div>
+        </div>
+        <div class="field">
+          <label for="f-org">{t("form.org")}</label>
+          <input id="f-org" name="organization" type="text" placeholder={t("form.ph.org")} autocomplete="organization" />
+        </div>
+        <div class="field">
+          <label for="f-topic">{t("form.topic")}</label>
+          <select id="f-topic" name="topic">
+            <option>Applied AI</option>
+            <option>Salesforce</option>
+            <option>Delivery</option>
+            <option>M&A IT</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="f-msg">{t("form.message")}</label>
+          <textarea id="f-msg" name="message" placeholder={t("form.ph.message")} required></textarea>
+        </div>
+        <div class="form__submit">
+          <button type="submit" class="pill">{t("form.send")} <span class="arrow" aria-hidden="true">→</span></button>
+          <span class="form__note">{t("form.note")}</span>
+        </div>
+      </form>
+    </div>
+  </section>
+</main>

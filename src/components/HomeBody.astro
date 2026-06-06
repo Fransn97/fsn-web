@@ -1,0 +1,340 @@
+---
+import StyledImage from "./StyledImage.astro";
+import CaseVisual from "./CaseVisual.astro";
+import Ticker from "./Ticker.astro";
+import BgWord from "./BgWord.astro";
+import { POSITIONING, PILLARS, CONTACT } from "../data/content";
+import { getCollection } from "astro:content";
+import { useTranslations, localizePath, type Lang } from "../i18n/utils";
+
+interface Props {
+  lang: Lang;
+  home: Record<string, any>;
+}
+const { lang, home } = Astro.props;
+const t = useTranslations(lang);
+const p = (path: string) => localizePath(path, lang);
+const pad = (n: number) => String(n).padStart(2, "0");
+
+const cases = (await getCollection("cases")).slice(0, 3);
+const insights = (await getCollection("insights"))
+  .sort((a, b) => new Date(b.data.publishedAt).getTime() - new Date(a.data.publishedAt).getTime())
+  .slice(0, 3);
+---
+
+<main id="top">
+  <!-- HERO -->
+  <section class="hero wrap" data-screen-label="Hero">
+    <div class="hero__bgtype" aria-hidden="true">
+      <div class="hero__bgtype-line hero__bgtype-line--a">NEGOCIO · PROCESO · RESULTADO · ESTRATEGIA · </div>
+      <div class="hero__bgtype-line hero__bgtype-line--b">SALESFORCE · IA · DELIVERY · CRITERIO · </div>
+      <div class="hero__bgtype-line hero__bgtype-line--c">INDUSTRIAL · CONSTRUCTION · MEDIA & TELCO · </div>
+    </div>
+
+    <div class="hero__top">
+      <p class="hero__concept reveal-fade">{home.heroConcept}</p>
+      <p class="hero__status reveal-fade">{home.heroStatus}</p>
+    </div>
+
+    <div class="hero__main">
+      <h1 class="hero__statement reveal-up">
+        <span class="hero__statement-pre">{home.heroTitlePre}</span>{" "}
+        <span class="hero__rotator" data-words={home.heroRotator.join("|")}>
+          <span class="hero__rotator-word">{home.heroRotator[0]}</span>
+        </span>
+        <br />
+        <span class="hero__statement-post" set:html={home.heroTitlePost} />
+      </h1>
+      <p class="hero__subtext reveal-up">{home.heroSubtext}</p>
+      <div class="hero__cta reveal-up">
+        <a class="pill pill--accent" href="#contact" data-cta="hero-primary"
+          >{t("cta.challenge")} <span class="arrow" aria-hidden="true">→</span></a
+        >
+        <a class="pill" href="#case-studies" data-cta="hero-secondary"
+          >{t("cta.cases")} <span class="arrow" aria-hidden="true">→</span></a
+        >
+      </div>
+    </div>
+
+    <div class="hero__ticker-slot reveal-fade">
+      <Ticker items={home.heroTicker} variant="line" />
+    </div>
+  </section>
+
+  <!-- IMAGE BAND -->
+  <section class="section--tight image-band wrap" data-screen-label="Transición">
+    <div class="image-band__grid">
+      <figure class="image-band__a reveal-up">
+        {home.bandImageA
+          ? <StyledImage src={home.bandImageA} ratio="16 / 10" />
+          : <CaseVisual seed={11} ratio="16 / 10" />}
+        <figcaption><span>{home.bandACaption}</span><span>{home.bandACat}</span></figcaption>
+      </figure>
+      <figure class="image-band__b reveal-up">
+        {home.bandImageB
+          ? <StyledImage src={home.bandImageB} ratio="4 / 5" />
+          : <CaseVisual seed={7} ratio="4 / 5" />}
+        <figcaption><span>{home.bandBCaption}</span><span>{home.bandBCat}</span></figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- POSITIONING -->
+  <section class="section statement" data-screen-label="Posicionamiento">
+    <BgWord text="NEGOCIO" />
+    <div class="wrap statement__grid">
+      <p class="label reveal-fade">{home.posLabel}</p>
+      <h2 class="statement__big reveal-up">{home.statementBig}</h2>
+      <div class="statement__cols">
+        <p class="reveal-up">{home.statementLeft}</p>
+        <p class="k reveal-up">{home.statementRight}</p>
+      </div>
+      <div class="statement__blocks">
+        {POSITIONING.map((b, i) => (
+          <div class="pos reveal-up">
+            <span class="pos__n">{pad(i + 1)}</span>
+            <h3 class="pos__k">{b.k}</h3>
+            <p class="pos__d">{b.d}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPERTISE -->
+  <section class="section" id="expertise" data-screen-label="Expertise">
+    <div class="wrap">
+      <div class="sec-head">
+        <div>
+          <p class="label reveal-fade">{home.expLabel}</p>
+          <h2 class="sec-head__title reveal-up" set:html={home.expTitle} />
+        </div>
+        <p class="sec-head__aside reveal-up">{home.expAside}</p>
+      </div>
+      <div class="pillars">
+        {PILLARS.map((pl, i) => (
+          <div class="pillar reveal-up" id={pl.id}>
+            <div class="pillar__idx">{pad(i + 1)}</div>
+            <div class="pillar__body--name"><h3 class="pillar__name">{pl.name}</h3></div>
+            <div class="pillar__detail">
+              <p class="pillar__desc">{pl.desc}</p>
+              <div class="pillar__tags">{pl.tags.map((tg) => <span class="tag">{tg}</span>)}</div>
+            </div>
+            <div class="pillar__go">
+              <a class="tlink" href="#contact" aria-label={`${t("cta.approach")} — ${pl.name}`}>
+                {t("cta.approach")} <span class="arrow" aria-hidden="true">→</span>
+              </a>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CASE STUDIES -->
+  <section class="section" id="case-studies" data-screen-label="Case Studies">
+    <div class="wrap">
+      <div class="sec-head">
+        <div>
+          <p class="label reveal-fade">{home.casesLabel}</p>
+          <h2 class="sec-head__title reveal-up" set:html={home.casesTitle} />
+        </div>
+        <p class="sec-head__aside reveal-up">{home.casesAside}</p>
+      </div>
+      <div class="cases">
+        {cases.map((c, i) => (
+          <article class="case reveal-up">
+            <div class="case__media">
+              <div class="case__num">CS/{pad(i + 1)}</div>
+              {c.data.image
+                ? <StyledImage src={c.data.image} class="case__img" ratio="16 / 10" />
+                : <CaseVisual seed={i + 3} class="case__img" ratio="16 / 10" />}
+              <div class="case__cat"><span class="tag">{c.data.category}</span></div>
+            </div>
+            <div class="case__head"><h3 class="case__title">{c.data.title}</h3></div>
+            <p class="case__summary">{c.data.context}</p>
+            <dl class="case__meta">
+              <div><dt>{t("case.role")}</dt><dd>{c.data.role}</dd></div>
+              <div><dt>{t("case.approach")}</dt><dd>{c.data.approach}</dd></div>
+              <div class="case__meta-wide"><dt>{t("case.result")}</dt><dd>{c.data.result}</dd></div>
+            </dl>
+            <div class="case__foot">
+              <a class="tlink" href={`/cases/${c.slug}`}>
+                {t("cta.readCase")} <span class="arrow" aria-hidden="true">→</span>
+              </a>
+            </div>
+          </article>
+        ))}
+      </div>
+      <div class="sec-foot reveal-up">
+        <a class="tlink" href="/cases">{t("cta.allCases")} <span class="arrow" aria-hidden="true">→</span></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- INSIGHTS -->
+  <section class="section ideas" id="insights" data-screen-label="Ideas">
+    <div class="wrap">
+      <div class="sec-head">
+        <div>
+          <p class="label reveal-fade">{home.ideasLabel}</p>
+          <h2 class="sec-head__title reveal-up" set:html={home.ideasTitle} />
+        </div>
+        <p class="sec-head__aside reveal-up">{home.ideasAside}</p>
+      </div>
+      <div class="ideas__grid">
+        {insights.map((a, i) => (
+          <article class={`idea${i === 0 ? " idea--feat" : ""} reveal-up`}>
+            <div class="idea__media">
+              {a.data.image
+                ? <StyledImage src={a.data.image} class="idea__slot" ratio="16 / 10" />
+                : <CaseVisual seed={i * 5 + 2} class="idea__slot" ratio="16 / 10" />}
+              <span class="idea__cat">{a.data.category}</span>
+            </div>
+            <div class="idea__body">
+              <h3 class="idea__title"><a href={`/insights/${a.slug}`}>{a.data.title}</a></h3>
+              <p class="idea__excerpt">{a.data.excerpt}</p>
+              <div class="idea__foot">
+                <a class="tlink" href={`/insights/${a.slug}`}>{t("cta.read")} <span class="arrow" aria-hidden="true">→</span></a>
+                <span class="idea__time">{a.data.readTime}</span>
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
+      <div class="ideas__sub reveal-up" id="newsletter">
+        <div class="ideas__sub-copy">
+          <p class="ideas__sub-kicker">{home.newsKicker}</p>
+          <p class="ideas__sub-pitch">{home.newsPitch}</p>
+          <p class="ideas__sub-meta">
+            {home.newsMeta.map((m: string, idx: number) => (
+              <>{idx > 0 && <span>·</span>}<span>{m}</span></>
+            ))}
+          </p>
+        </div>
+        <form class="news__form ideas__form" id="news-form" novalidate>
+          <label class="visually-hidden" for="news-email">{t("form.email")}</label>
+          <input id="news-email" name="email" type="email" placeholder="tu@email.com" aria-label={t("form.email")} required />
+          <button type="submit" class="pill pill--accent">
+            {t("cta.subscribe")} <span class="arrow" aria-hidden="true">→</span>
+          </button>
+        </form>
+      </div>
+      <div class="sec-foot reveal-up">
+        <a class="tlink" href="/insights">{t("cta.allInsights")} <span class="arrow" aria-hidden="true">→</span></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTOR SEPARATOR -->
+  <Ticker
+    variant="band"
+    reverse
+    speed={46}
+    items={["Industrial Products", "Construction", "Media & Telco", "Enterprise Delivery", "Applied AI", "Salesforce"]}
+  />
+
+  <!-- ABOUT -->
+  <section class="section about about--home" id="about" data-screen-label="About">
+    <div class="wrap">
+      <p class="label reveal-fade" style="margin-bottom:clamp(36px,5vw,64px)">{home.aboutLabel}</p>
+      <div class="about__grid">
+        <div class="about__intro">
+          <h2 class="about__lead reveal-up">{home.aboutLead}</h2>
+          <div class="about__text">
+            <p class="reveal-up">{home.aboutText1}</p>
+            <p class="reveal-up">{home.aboutText2}</p>
+          </div>
+          <a class="pill pill--solid reveal-up about__more" href={p("/about")}
+            >{t("cta.story")} <span class="arrow" aria-hidden="true">→</span></a
+          >
+        </div>
+        <div class="about__portrait reveal-up">
+          <div class="hero__slot-wrap about__slot-wrap">
+            <StyledImage src={home.aboutPortrait} alt="Francisco Sánchez Nieves" tag="FSN" placeholder="FSN" class="hero__slot" />
+          </div>
+          <div class="about__cap"><span>{home.aboutCap}</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="section contact" id="contact" data-screen-label="Contact">
+    <div class="wrap contact__grid">
+      <div>
+        <p class="label reveal-fade">{t("contact.label")}</p>
+        <h2 class="contact__title reveal-up" style="margin-top:22px">{t("contact.title")}</h2>
+        <p class="contact__intro reveal-up">{t("contact.intro")}</p>
+        <div class="contact__detail reveal-up">
+          <a href={CONTACT.linkedin} target="_blank" rel="noopener noreferrer" data-social="linkedin">
+            <span class="k">LinkedIn</span><span>/in/francisco-sanchez-nieves →</span>
+          </a>
+          <a href={`mailto:${CONTACT.email}`} data-social="email">
+            <span class="k">Email</span><span>{CONTACT.email} →</span>
+          </a>
+          <span><span class="k">{t("contact.base")}</span><span>{CONTACT.base}</span></span>
+        </div>
+      </div>
+      <form class="form" id="contact-form" novalidate>
+        <div class="field--row">
+          <div class="field">
+            <label for="f-name">{t("form.name")}</label>
+            <input id="f-name" name="name" type="text" placeholder={t("form.ph.name")} autocomplete="name" required />
+          </div>
+          <div class="field">
+            <label for="f-email">{t("form.email")}</label>
+            <input id="f-email" name="email" type="email" placeholder="tu@email.com" autocomplete="email" required />
+          </div>
+        </div>
+        <div class="field">
+          <label for="f-org">{t("form.org")}</label>
+          <input id="f-org" name="organization" type="text" placeholder={t("form.ph.org")} autocomplete="organization" />
+        </div>
+        <div class="field">
+          <label for="f-topic">{t("form.topic")}</label>
+          <select id="f-topic" name="topic">
+            <option>Applied AI</option>
+            <option>Salesforce</option>
+            <option>Delivery</option>
+            <option>M&A IT</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="f-msg">{t("form.message")}</label>
+          <textarea id="f-msg" name="message" placeholder={t("form.ph.message")} required></textarea>
+        </div>
+        <div class="form__submit">
+          <button type="submit" class="pill">{t("form.send")} <span class="arrow" aria-hidden="true">→</span></button>
+          <span class="form__note">{t("form.note")}</span>
+        </div>
+      </form>
+    </div>
+  </section>
+</main>
+
+<script is:inline>
+  (function () {
+    const rot = document.querySelector(".hero__rotator");
+    if (!rot) return;
+    const words = (rot.dataset.words || "").split("|").filter(Boolean);
+    const el = rot.querySelector(".hero__rotator-word");
+    if (!el || words.length < 2) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    let i = 0;
+    setInterval(function () {
+      i = (i + 1) % words.length;
+      const next = words[i];
+      el.classList.add("is-out");
+      setTimeout(function () {
+        el.textContent = next;
+        el.classList.remove("is-out");
+        el.classList.add("is-pre");
+        void el.offsetWidth;
+        el.classList.remove("is-pre");
+      }, 420);
+    }, 2600);
+  })();
+</script>
+

@@ -1,23 +1,29 @@
 ---
+import { getLangFromUrl, useTranslations, localizePath } from "../i18n/utils";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const p = (path: string) => localizePath(path, lang);
+const home = p("/");
 ---
 
 <footer class="footer">
   <div class="wrap">
-    <p class="footer__big">Let's build<br />it together.</p>
+    <p class="footer__big" set:html={t("footer.big")}></p>
     <div class="footer__row">
       <div class="footer__col">
         <span class="h">Francisco Sánchez Nieves</span>
         <span>AI · Salesforce · Technology Transformation</span>
       </div>
       <div class="footer__col">
-        <span class="h">Navegación</span>
-        <a href="/#expertise">Expertise</a>
-        <a href="/cases">Case Studies</a>
-        <a href="/insights">Insights</a>
-        <a href="/about">About</a>
+        <span class="h">{t("footer.nav")}</span>
+        <a href={`${home}#expertise`}>{t("nav.expertise")}</a>
+        <a href="/cases">{t("nav.cases")}</a>
+        <a href="/insights">{t("nav.insights")}</a>
+        <a href={p("/about")}>{t("nav.about")}</a>
       </div>
       <div class="footer__col">
-        <span class="h">Contacto</span>
+        <span class="h">{t("footer.contact")}</span>
         <a
           href="https://www.linkedin.com/in/francisco-sanchez-nieves"
           target="_blank"
@@ -25,12 +31,12 @@
           data-social="linkedin">LinkedIn</a
         >
         <a href="mailto:hola@franciscosancheznieves.com" data-social="email">Email</a>
-        <a href="/contact">Hablemos</a>
+        <a href={p("/contact")}>{t("nav.talk")}</a>
       </div>
       <div class="footer__col">
         <span class="h">© <span id="year">2026</span></span>
-        <span>Todos los derechos reservados.</span>
-        <span>From complexity to intelligent transformation.</span>
+        <span>{t("footer.rights")}</span>
+        <span>{t("footer.tagline")}</span>
       </div>
     </div>
   </div>

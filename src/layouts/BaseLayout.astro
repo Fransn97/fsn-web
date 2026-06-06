@@ -19,13 +19,17 @@ const {
 
 const canonicalUrl = canonical ?? Astro.url.href;
 
+import { getLangFromUrl } from "../i18n/utils";
+const lang = getLangFromUrl(Astro.url);
+const ogLocale = lang === "en" ? "en_US" : "es_ES";
+
 // CSS bundled by Astro (content-hashed URL → auto cache-busting on every change)
 import "../styles/styles.css";
 import "../styles/pages.css";
 ---
 
 <!doctype html>
-<html lang="es">
+<html lang={lang}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -35,7 +39,7 @@ import "../styles/pages.css";
     <meta property="og:title" content={ogTitle ?? title} />
     <meta property="og:description" content={ogDescription ?? description} />
     <meta property="og:type" content="website" />
-    <meta property="og:locale" content="es_ES" />
+    <meta property="og:locale" content={ogLocale} />
     <meta property="og:url" content={canonicalUrl} />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={ogTitle ?? title} />

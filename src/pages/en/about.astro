@@ -1,0 +1,24 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
+import AboutBody from "../../components/AboutBody.astro";
+import "../../styles/certifications.css";
+---
+
+<BaseLayout
+  title="About · Francisco Sánchez Nieves"
+  description="From Ávila to technology transformation. Francisco Sánchez Nieves' career: education, consulting, Salesforce, applied AI, cloud and digital product."
+  canonical="https://franciscosancheznieves.com/en/about"
+  ogTitle="About · Francisco Sánchez Nieves"
+  ogDescription="One career, a single thread: turning the complex into digital solutions that work."
+>
+  <Header />
+  <AboutBody lang="en" />
+  <Footer />
+
+  <Fragment slot="scripts">
+    <script src="/assets/about.js" is:inline></script>
+    <script src="/assets/certifications.js" is:inline></script>
+  </Fragment>
+</BaseLayout>

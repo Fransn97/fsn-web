@@ -1,0 +1,38 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
+import HomeBody from "../../components/HomeBody.astro";
+import home from "../../data/home_en.json";
+---
+
+<BaseLayout
+  title="Francisco Sánchez Nieves · AI, Salesforce & Technology Transformation"
+  description="Manager at Deloitte and 7 years in Salesforce. Business-first transformation and applied AI for Industrial, Construction and Media & Telco."
+  canonical="https://franciscosancheznieves.com/en/"
+  ogTitle="Francisco Sánchez Nieves · AI, Salesforce & Technology Transformation"
+  ogDescription="I turn complex problems into scalable, governable and measurable systems. Applied AI · Salesforce · Delivery."
+>
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Person",
+          name: "Francisco Sánchez Nieves",
+          jobTitle: "Technology Transformation Consultant — AI & Salesforce",
+          url: "https://franciscosancheznieves.com/en/",
+          email: "hola@franciscosancheznieves.com",
+          sameAs: ["https://www.linkedin.com/in/francisco-sanchez-nieves"],
+          address: { "@type": "PostalAddress", addressLocality: "Madrid", addressCountry: "ES" },
+          knowsAbout: ["Applied AI", "Salesforce", "Agentforce", "Data Cloud", "Experience Cloud", "CRM Transformation", "M&A IT", "Technology Delivery"],
+        },
+        { "@type": "WebSite", name: "Francisco Sánchez Nieves", url: "https://franciscosancheznieves.com/en/", inLanguage: "en" },
+      ],
+    })} />
+  </Fragment>
+
+  <Header />
+  <HomeBody lang="en" home={home} />
+  <Footer />
+</BaseLayout>
