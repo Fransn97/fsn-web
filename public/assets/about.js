@@ -53,7 +53,5 @@
     if (fill) fill.style.height = pct.toFixed(2) + "%";
   }
 
-  window.addEventListener("scroll", onScroll, { passive: true });
-  window.addEventListener("resize", onScroll, { passive: true });
-  onScroll();
+  window.onScrollTick(onScroll);
 })();

@@ -19,15 +19,61 @@
   };
   window.track = track;
 
-  /* ---- Header stuck state ---- */
+  /* ---- Shared scroll ticker — one rAF-throttled scroll/resize loop;
+     other code (incl. about.js) subscribes via window.onScrollTick(fn).
+     Each fn runs once immediately on registration, then on every
+     throttled tick. ---- */
+  const scrollSubs = [];
+  let scrollTickScheduled = false;
+  function runScrollSubs() {
+    scrollTickScheduled = false;
+    scrollSubs.forEach((fn) => fn());
+  }
+  function requestScrollTick() {
+    if (scrollTickScheduled) return;
+    scrollTickScheduled = true;
+    requestAnimationFrame(runScrollSubs);
+  }
+  window.onScrollTick = (fn) => { scrollSubs.push(fn); fn(); };
+  window.addEventListener("scroll", requestScrollTick, { passive: true });
+  window.addEventListener("resize", requestScrollTick, { passive: true });
+
+  /* ---- Header stuck state + scroll progress bar ---- */
   const header = document.querySelector(".header");
   const heroScroll = document.getElementById("hero-scroll");
-  const onScroll = () => {
+  const progressBar = document.getElementById("scroll-progress-bar");
+  window.onScrollTick(() => {
     if (header) header.classList.toggle("is-stuck", window.scrollY > 12);
     if (heroScroll) heroScroll.classList.toggle("is-hidden", window.scrollY > 60);
-  };
-  window.addEventListener("scroll", onScroll, { passive: true });
-  onScroll();
+    if (progressBar) {
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      const pct = max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0;
+      progressBar.style.transform = `scaleX(${pct})`;
+    }
+  });
+
+  /* ---- Nav scrollspy — highlights the in-page section link whose
+     target section currently crosses the ~35% viewport line. ---- */
+  function setupScrollSpy() {
+    const spies = [...document.querySelectorAll('.nav__link[href*="#"]')]
+      .map((link) => {
+        const hash = link.getAttribute("href").split("#")[1];
+        const target = hash && document.getElementById(hash);
+        return target ? { link, target } : null;
+      })
+      .filter(Boolean);
+    if (!spies.length) return;
+    window.onScrollTick(() => {
+      const vh = window.innerHeight || document.documentElement.clientHeight;
+      const anchor = vh * 0.35;
+      let active = null;
+      spies.forEach(({ target }) => {
+        const r = target.getBoundingClientRect();
+        if (r.top <= anchor && r.bottom > anchor) active = target;
+      });
+      spies.forEach(({ link, target }) => link.classList.toggle("is-active", target === active));
+    });
+  }
 
   /* ---- Hero scroll cue — dynamic glide to the next section ---- */
   if (heroScroll) {
@@ -192,6 +238,6 @@
 
   /* content.js renders lists after DOMContentLoaded; wire reveals then. */
   document.addEventListener("content:ready", setupReveals);
-  document.addEventListener("DOMContentLoaded", () => { setupNav(); setupReveals(); track("page_viewed", { section: "home" }); });
+  document.addEventListener("DOMContentLoaded", () => { setupNav(); setupReveals(); setupScrollSpy(); track("page_viewed", { section: "home" }); });
   window.addEventListener("load", setupReveals);
 })();

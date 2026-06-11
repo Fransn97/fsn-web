@@ -154,6 +154,17 @@ button { font-family: inherit; cursor: pointer; }
   transition: border-color .4s var(--ease);
 }
 .header.is-stuck { border-color: var(--line); }
+/* scroll progress — thin accent line tracking page scroll, sits on the header's bottom edge */
+.scroll-progress {
+  position: absolute; left: 0; right: 0; bottom: 0; height: 2px;
+  overflow: hidden; pointer-events: none;
+}
+.scroll-progress__bar {
+  display: block; width: 100%; height: 100%;
+  background: var(--accent);
+  transform: scaleX(0); transform-origin: left;
+  will-change: transform;
+}
 .header__row {
   display: flex; align-items: center; justify-content: space-between;
   gap: 24px;
@@ -190,6 +201,8 @@ button { font-family: inherit; cursor: pointer; }
 }
 .nav__link:hover { color: var(--ink); }
 .nav__link:hover::after { width: 100%; }
+.nav__link.is-active { color: var(--ink); }
+.nav__link.is-active::after { width: 100%; }
 .header__right { display: flex; align-items: center; gap: 16px; }
 .lang {
   display: inline-flex; font-family: var(--font-mono);
