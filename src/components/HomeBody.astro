@@ -56,6 +56,11 @@ const insights = (await getCollection("insights"))
       </div>
     </div>
 
+    <button class="hero__scroll" id="hero-scroll" type="button" aria-label={t("hero.scroll")}>
+      <span>Scroll</span>
+      <span class="hero__scroll-track" aria-hidden="true"><span class="hero__scroll-dot"></span></span>
+    </button>
+
     <div class="hero__ticker-slot reveal-fade">
       <Ticker items={home.heroTicker} variant="line" />
     </div>
@@ -323,7 +328,9 @@ const insights = (await getCollection("insights"))
     if (!el || words.length < 2) return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     let i = 0;
-    setInterval(function () {
+    let timer = null;
+    let visible = true;
+    function swap() {
       i = (i + 1) % words.length;
       const next = words[i];
       el.classList.add("is-out");
@@ -334,7 +341,21 @@ const insights = (await getCollection("insights"))
         void el.offsetWidth;
         el.classList.remove("is-pre");
       }, 420);
-    }, 2600);
+    }
+    /* run only while the rotator is on screen and the tab is visible */
+    function sync() {
+      const run = visible && !document.hidden;
+      if (run && !timer) timer = setInterval(swap, 2600);
+      else if (!run && timer) { clearInterval(timer); timer = null; }
+    }
+    if ("IntersectionObserver" in window) {
+      new IntersectionObserver(function (entries) {
+        visible = entries[0].isIntersecting;
+        sync();
+      }).observe(rot);
+    }
+    document.addEventListener("visibilitychange", sync);
+    sync();
   })();
 </script>
 

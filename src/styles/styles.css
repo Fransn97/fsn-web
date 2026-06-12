@@ -300,7 +300,8 @@ button { font-family: inherit; cursor: pointer; }
 
 /* hero scroll cue — guides into the next section */
 .hero__scroll {
-  position: absolute; left: 50%; bottom: clamp(12px, 1.8vw, 24px);
+  /* sits above the hero ticker band pinned to the section's bottom */
+  position: absolute; left: 50%; bottom: clamp(64px, 7vw, 92px);
   transform: translateX(-50%); z-index: 2;
   display: flex; flex-direction: column; align-items: center; gap: 11px;
   background: none; border: 0; padding: 6px 10px;

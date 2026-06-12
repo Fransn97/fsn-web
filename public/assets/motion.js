@@ -75,6 +75,22 @@
     });
   }
 
+  /* ---- Hero parallax — bg type lines sink at staggered rates as the
+     hero scrolls away, adding depth. Uses the independent `translate`
+     property so it composes with the keyframe drift on `transform`. ---- */
+  const bgLines = document.querySelectorAll(".hero__bgtype-line");
+  if (bgLines.length && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    const rates = [0.08, 0.16, 0.26];
+    window.onScrollTick(() => {
+      const y = window.scrollY;
+      const vh = window.innerHeight || document.documentElement.clientHeight;
+      if (y > vh * 1.5) return; // hero fully off-screen — nothing to move
+      bgLines.forEach((line, i) => {
+        line.style.translate = "0 " + (y * rates[i % rates.length]).toFixed(1) + "px";
+      });
+    });
+  }
+
   /* ---- Hero scroll cue — dynamic glide to the next section ---- */
   if (heroScroll) {
     heroScroll.addEventListener("click", () => {
